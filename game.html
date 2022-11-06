@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <header id="buttonSpace">
+        <button onclick="pickSize()">Start</button>
+    </header>
+    <body>
+        <section id="tablespace">
+
+        </section>
+        
+        <style>
+            td {
+                border: 1px solid black;
+                width: 20px;
+                height: 20px;
+                max-width: 20px;
+                max-height: 20px;
+            }
+
+            table{
+                border: 1px solid black;
+                width: 200px;
+                height: 100px;
+            }
+
+            .coin{
+                background-color: red;
+                margin: auto;
+                width: 20px;
+                height: 20px;
+                border-radius: 50px;
+            }
+        </style>
+
+        <script>
+            const tablePos = []; //index of positions
+            const tableValues = []; //moves made based on index
+
+            var space = document.getElementById("tablespace");
+
+            function checkID(the_id){
+                console.log(the_id);
+            }
+
+            function checkColumn(the_id){
+                let num = String(the_id);
+                let val = num[1];
+                console.log("Column number = " + val);
+            }
+
+            function placePiece(the_id){
+                checkID(the_id);
+                checkColumn(the_id);
+                let x = document.getElementById(the_id);
+                y = document.createElement("div");
+                y.setAttribute("class", "coin");
+                x.appendChild(y); 
+            }
+
+            function pickSize(){
+                var place = document.getElementById("buttonSpace");
+
+                var buttonSmall = document.createElement("button");
+                buttonSmall.innerHTML = "Board Size 6x7"
+                buttonSmall.setAttribute("onclick", "makeTable(6,7)");
+                place.appendChild(buttonSmall);
+
+                var buttonBig = document.createElement("button");
+                buttonBig.innerHTML = "Board Size 8x9"
+                buttonBig.setAttribute("onclick", "makeTable(8,9)");
+                place.appendChild(buttonBig);
+            }
+            
+            function makeTable(Grow, Gcolumn){
+                var table = document.createElement("table");
+                /*
+                var tableArea = new Array(Gcolumn); 
+                for(let i; i < Grow; i++){
+                    table[i] = new Array(Grow);
+                }
+                */
+
+                for(let i = 0; i < Grow; i++){
+                    var row = document.createElement("tr");
+                    for(let j = 0; j < Gcolumn; j++){
+                        var cell = document.createElement("td");
+                        //cell.innerHTML = j
+                        tablePos.push("["+String(j)+"]"+"["+String(i)+"]");
+                        tableValues.push("0");
+                        cell.setAttribute("id", "["+String(j)+"]"+"["+String(i)+"]");
+                        cell.setAttribute("onclick", "placePiece(this.id)");
+                        row.appendChild(cell);
+                    }
+                    table.appendChild(row);
+                }
+                space.appendChild(table);
+                console.log(tableValues);
+                console.log(tablePos);
+            }
+        </script>
+    </body>
+</html>
