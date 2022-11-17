@@ -33,9 +33,22 @@
                 height: 20px;
                 border-radius: 50px;
             }
+
+            .coin2{
+                background-color: yellow;
+                margin: auto;
+                width: 20px;
+                height: 20px;
+                border-radius: 50px;
+            }
         </style>
 
         <script>
+            var playerTurn = 1
+
+            var playerOne = 1
+            var playerTwo = 0
+
             const tablePos = []; //index of positions
             const tableValues = []; //moves made based on index
 
@@ -51,13 +64,60 @@
                 console.log("Column number = " + val);
             }
 
+            function findOpenRow(the_id){
+                console.log(the_id);
+                var row = the_id[1];
+                var col = the_id[4];
+                let columnStats = [];
+                console.log("Row " + String(row));
+                console.log("Column " + String(col));
+
+                /*
+                let p = 0;
+                while( p < 6){
+                    if(document.getElementById("["+p+"]["+col+"]").hasChildNodes()){
+                        if(p == 0){
+                            break;
+                        }
+                        document.getElementById("["+(p-1)+"]["+col+"]").appendChild(document.createTextNode(
+                            "Filled"
+                        ));
+                    }
+                    p++;
+                }
+                */
+
+                for(let i = 0; i < 6; i++){ //looks at if column is filled
+                    let temp = document.getElementById("["+i+"]["+col+"]");
+                    if (temp.hasChildNodes() == false){
+                        columnStats.push('0');
+                    }else{
+                        columnStats.push('1');
+                    }
+                }
+                console.log(columnStats);
+                for(let j = columnStats.length - 1; j >= 0; j--){
+                    console.log(columnStats[j] == String(0));
+                    if(columnStats[j] === String(0)){
+                        if(columnStats[j+1] === String(0)){
+                            continue;
+                        }else{
+                            console.log("Placing Here");
+                            placePiece("["+j+"]["+col+"]");
+                            return;
+                        }
+                    }
+                }
+                
+            }
+
             function placePiece(the_id){
                 checkID(the_id);
                 checkColumn(the_id);
                 let x = document.getElementById(the_id);
                 y = document.createElement("div");
                 y.setAttribute("class", "coin");
-                x.appendChild(y); 
+                x.appendChild(y);
             }
 
             function pickSize(){
@@ -73,25 +133,34 @@
                 buttonBig.setAttribute("onclick", "makeTable(8,9)");
                 place.appendChild(buttonBig);
             }
+
+            function removeTable(table){
+                while(table.firstChild){
+                    table.removeChild(table.firstChild);
+                }
+                return table;
+            }
             
             function makeTable(Grow, Gcolumn){
                 var table = document.createElement("table");
-                /*
+                
+                removeTable(space); //removes preivious  table
+
                 var tableArea = new Array(Gcolumn); 
                 for(let i; i < Grow; i++){
                     table[i] = new Array(Grow);
                 }
-                */
+                
 
                 for(let i = 0; i < Grow; i++){
                     var row = document.createElement("tr");
                     for(let j = 0; j < Gcolumn; j++){
                         var cell = document.createElement("td");
                         //cell.innerHTML = j
-                        tablePos.push("["+String(j)+"]"+"["+String(i)+"]");
+                        tablePos.push("["+String(i)+"]"+"["+String(j)+"]");
                         tableValues.push("0");
-                        cell.setAttribute("id", "["+String(j)+"]"+"["+String(i)+"]");
-                        cell.setAttribute("onclick", "placePiece(this.id)");
+                        cell.setAttribute("id", "["+String(i)+"]"+"["+String(j)+"]");
+                        cell.setAttribute("onclick", "findOpenRow(this.id)");
                         row.appendChild(cell);
                     }
                     table.appendChild(row);
