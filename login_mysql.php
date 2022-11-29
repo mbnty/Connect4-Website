@@ -1,6 +1,8 @@
 <?php
 // Include config file
-require_once 'config_mysql.php';
+require_once 'config_user.php';
+
+$conn = new mysqli($servername, $username, $password, $dbname);
  
 // Define variables and initialize with empty values
 $username = $password = "";
@@ -27,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
         $sql = "SELECT login, password FROM admin WHERE login = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             // Set parameters
@@ -48,8 +50,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             /* Password is correct, so start a new session and
                             save the username to the session */
                             session_start();
-                            $_SESSION['username'] = $username;      
-                            header("location: welcome_mysql.php");
+                            $_SESSION['username'] = $username;
+                            //echo $_SESSION['username'];
+                            //setcookie()
+
+                            /*
+                            USE COOKIES TO PASS SESSION INFO BETWEEN 
+                            DIFFERENT PHP DISPLAY PAGES
+
+                            NEED to create unique session id's
+                            (maybe based on datetime a user is created,
+                            then turn into a hash string)
+                            */
+
+                            header("location: game_rdbms.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = 'The password you entered was not valid.';
@@ -67,7 +81,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
     // Close connection
-    mysqli_close($link);
+    mysqli_close($conn);
 }
 ?>
  
