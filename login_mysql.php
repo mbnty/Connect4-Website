@@ -57,18 +57,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // echo $username . " date created is: " . $param_date . "<br>";
                             // echo $param_date . " hashed version is: " . $date_user_created . "<br>";
                             // echo $_SESSION['username'] . "<br>";
-                            
+
                             setcookie($username, $date_user_created, time()+86400);
                             // echo $_COOKIE[$username];
-
-                            /*
-                            USE COOKIES TO PASS SESSION INFO BETWEEN 
-                            DIFFERENT PHP DISPLAY PAGES
-
-                            NEED to create unique session id's
-                            (maybe based on datetime a user is created,
-                            then turn into a hash string)
-                            */
 
                             //header("location: index2.html");
                             //header("location: game_rdbms.php");
