@@ -52,6 +52,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             session_start();
                             $_SESSION['username'] = $username;
                             //echo $_SESSION['username'];
+                            //setcookie()
+
+                            /*
+                            USE COOKIES TO PASS SESSION INFO BETWEEN 
+                            DIFFERENT PHP DISPLAY PAGES
+
+                            NEED to create unique session id's
+                            (maybe based on datetime a user is created,
+                            then turn into a hash string)
+                            */
+
                             header("location: game_rdbms.php");
                         } else{
                             // Display an error message if password is not valid
