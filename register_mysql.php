@@ -1,6 +1,28 @@
 <?php
 // Include config file
-require_once 'config_mysql.php';
+require_once 'config_user.php';
+
+$sql = "CREATE DATABASE IF NOT EXISTS ". $dbname;
+if ($conn->query($sql) === TRUE) {
+    echo "Database ". $dbname ." created successfully<br>";
+} else {
+    echo "Error creating database: " . $conn->error ."<br>";
+}
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+$sql = "CREATE TABLE IF NOT EXISTS admin(
+    pkey INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    login VARCHAR(30) NOT NULL,
+    password VARCHAR(128) NOT NULL
+)";
+
+if($conn->query($sql)===TRUE){
+    echo "Table admin created successfully <br>";
+}
+else{
+    echo "Error creating table: " . $conn->error ."<br>";
+}
  
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
@@ -13,9 +35,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM admin WHERE login = ?";
+        $sql = "SELECT login FROM admin WHERE login = ?";
         
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);       
             // Set parameters
@@ -59,9 +81,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO admin (login, password) VALUES (?, ?)";
+        $sql = "INSERT INTO admin (login, password) VALUES (?,?)";
          
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
             
@@ -81,7 +103,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
     // Close connection
-    mysqli_close($link);
+    mysqli_close($conn);
 }
 ?>
  
