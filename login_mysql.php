@@ -2,6 +2,7 @@
 // Include config file
 require_once 'config_user.php';
 
+//connect to the server
 $conn = new mysqli($servername, $username, $password, $dbname);
  
 // Define variables and initialize with empty values
@@ -28,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT login, password FROM admin WHERE login = ?";
+        $sql = "SELECT login, date_created, password FROM admin WHERE login = ?";
         if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
@@ -42,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-					mysqli_stmt_bind_result($stmt, $username, $hashed_password);
+					mysqli_stmt_bind_result($stmt, $username, $param_date, $hashed_password);
                     if(mysqli_stmt_fetch($stmt)){
 						//echo $password ."<br>";
 						//echo $hashed_password ."<br>";
@@ -51,8 +52,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             save the username to the session */
                             session_start();
                             $_SESSION['username'] = $username;
-                            //echo $_SESSION['username'];
-                            //setcookie()
+                            $date_user_created = hash('gost', $param_date);
+
+                            // echo $username . " date created is: " . $param_date . "<br>";
+                            // echo $param_date . " hashed version is: " . $date_user_created . "<br>";
+                            // echo $_SESSION['username'] . "<br>";
+                            
+                            setcookie($username, $date_user_created, time()+86400);
+                            // echo $_COOKIE[$username];
 
                             /*
                             USE COOKIES TO PASS SESSION INFO BETWEEN 
@@ -63,7 +70,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             then turn into a hash string)
                             */
 
-                            header("location: game_rdbms.php");
+                            //header("location: index2.html");
+                            //header("location: game_rdbms.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = 'The password you entered was not valid.';
