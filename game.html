@@ -44,15 +44,21 @@
         </style>
 
         <script>
-            var playerTurn = 1
-
-            var playerOne = 1
-            var playerTwo = 0
+            class player{
+                constructor(c, w, l, t){
+                    this.color = c;
+                    this.wins = w;
+                    this.loses = l;
+                    this.turnvalue;
+                }
+            }
 
             const tablePos = []; //index of positions
             const tableValues = []; //moves made based on index
 
             var space = document.getElementById("tablespace");
+
+            var One = new player()
 
             function checkID(the_id){
                 console.log(the_id);
@@ -69,9 +75,6 @@
                 var row = the_id[1];
                 var col = the_id[4];
                 let columnStats = [];
-                console.log("Row " + String(row));
-                console.log("Column " + String(col));
-
                 /*
                 let p = 0;
                 while( p < 6){
@@ -95,14 +98,12 @@
                         columnStats.push('1');
                     }
                 }
-                console.log(columnStats);
                 for(let j = columnStats.length - 1; j >= 0; j--){
                     console.log(columnStats[j] == String(0));
                     if(columnStats[j] === String(0)){
                         if(columnStats[j+1] === String(0)){
                             continue;
                         }else{
-                            console.log("Placing Here");
                             placePiece("["+j+"]["+col+"]");
                             return;
                         }
