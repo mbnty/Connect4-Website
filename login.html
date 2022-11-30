@@ -24,6 +24,7 @@
         </form>
     </div>
 
+
     <script>
         var xhr;
 
@@ -48,10 +49,11 @@
         function redirect(){
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200){
                 console.log("Login successful.");
-                window.location.replace("login.mysql.php");
+                window.location.replace("index2.html");
                 console.log(xhr.response)
             }
         }
+
     </script>
 
 </body>

@@ -26,6 +26,6 @@ else{
     echo "Login not defined. <br>";
 }
 
-header("location: index2.html")
+//header("location: index2.html")
 
 ?>

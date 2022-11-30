@@ -9,6 +9,9 @@
     </header>
     <body>
         <section>
+            <h1 id="user"></h1>
+        </section>
+        <section>
             <button><a href="game.html">Play</button>
             <button><a href="help.html">Help</button>
             <button><a href="leaderboard.html">LeaderBoard</button>
@@ -19,4 +22,32 @@
             </p>
         </section>
     </body>
+
+    <script>
+        var user;
+        var params;
+
+        function getUser(){
+            params = "?username=set";
+
+        }
+        document.addEventListener("DOMContentLoaded", ()=>{
+            getUser();
+        })
+
+        function goodRequest(){
+            return xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200;
+        }
+
+        function setUser(){
+            if(goodRequest()){
+                user = xhr.response;
+                document.getElementById("user").innerText = "Welcome "+user;
+            }
+            else if(xhr.status == 401){
+                window.location.replace("logout_mysql.php");
+            }
+        }
+
+    </script>
 </html>
