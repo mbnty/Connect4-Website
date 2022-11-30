@@ -33,23 +33,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     //echo $password ."<br>";
                     //echo $hashed_password ."<br>";
                     if(password_verify($_POST['password'], $hashed_password)){
-                        echo "42 || ";
                         /* Password is correct, so start a new session and
                         save the username to the session */
                         session_start();
                         $_SESSION['username'] = $_POST['username'];
-                        echo "Session created: " . $_SESSION['username'] . "<br>";
+                        //echo "Session created: " . $_SESSION['username'] . "<br>";
 
-                        header("location: check_login.php");
+                        echo $_SESSION['username'];
+
+                        //header("location: check_login.php");
                         //header("location: game_rdbms.php");
                     } else{
                         // Display an error message if password is not valid
                         $password_err = 'The password you entered was not valid.';
+                        http_response_code(401);
                     }
                 }
             } else{
                 // Display an error message if username doesn't exist
                 $username_err = 'No account found with that username.';
+                http_response_code(401);
             }
         } else{
             echo "Oops! Something went wrong. Please try again later.";

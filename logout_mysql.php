@@ -9,8 +9,8 @@ session_start();
 //     echo "Value is: " . $_COOKIE[$username];
 // }
 
-echo "Current session is: " . $_SESSION['username'] . "<br>";
-echo "NOW DESTROYING SESSIONS. <br>";
+//echo "Current session is: " . $_SESSION['username'] . "<br>";
+//echo "NOW DESTROYING SESSIONS. <br>";
 
 // Unset all of the session variables
 $_SESSION = array();
@@ -21,9 +21,9 @@ $_SESSION = array();
 // Destroy the session.
 session_destroy();
 
-echo "Sessions destroyed.";
+//echo "Sessions destroyed.";
  
 // Redirect to login page
-//header("location: login_mysql.php");
+header("location: login.html");
 exit;
 ?>

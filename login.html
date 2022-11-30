@@ -17,6 +17,7 @@
                 <label>Password:<sup>*</sup></label>
                 <input type="password" name="password" id="password">
             </div>
+            <div id="login_error"></div>
             <div>
                 <input type="submit" value="Submit">
             </div>
@@ -51,6 +52,10 @@
                 console.log("Login successful.");
                 window.location.replace("index2.html");
                 console.log(xhr.response)
+            }
+            if(xhr.status == 401){
+                document.getElementById("login_error").innerText = "Incorrect Username or Password.";
+                console.log("Error: " + xhr.status);
             }
         }
 

@@ -17,21 +17,30 @@
             <button><a href="leaderboard.html">LeaderBoard</button>
             <button><a href="contact.html">Contact</button>
             <p>
-                <button><a href="login_mysql.php">Login</button>
+                <button><a href="login.html">Login</button>
                 <button><a href="logout_mysql.php">Logout</button>
             </p>
         </section>
     </body>
 
     <script>
-        var user;
-        var params;
+        var user = "";
+        var params = "";
+        var xhr;
 
         function getUser(){
+            //console.log("trying getUser <br>");
             params = "?username=set";
 
+            xhr = new XMLHttpRequest
+            xhr.open("GET", "check_connection.php" + params);
+            
+            xhr.onreadystatechange = setUser;
+            xhr.send();
         }
+
         document.addEventListener("DOMContentLoaded", ()=>{
+            //console.log("Inside event listener <br>");
             getUser();
         })
 
@@ -41,7 +50,9 @@
 
         function setUser(){
             if(goodRequest()){
-                user = xhr.response;
+                //console.log("request is good");
+                user = xhr.response; //gets username from echo in check_login.php
+                console.log(user);
                 document.getElementById("user").innerText = "Welcome "+user;
             }
             else if(xhr.status == 401){

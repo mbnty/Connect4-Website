@@ -4,7 +4,8 @@ require_once 'config_user.php';
 
 $sql = "CREATE DATABASE IF NOT EXISTS ". $dbname;
 if ($conn->query($sql) === TRUE) {
-    echo "Database ". $dbname ." created successfully<br>";
+    //echo "Database ". $dbname ." created successfully<br>";
+    echo "";
 } else {
     echo "Error creating database: " . $conn->error ."<br>";
 }
@@ -21,7 +22,8 @@ $sql = "CREATE TABLE IF NOT EXISTS admin(
 
 
 if($conn->query($sql)===TRUE){
-    echo "Table admin created successfully <br>";
+    //echo "Table admin created successfully <br>";
+    echo "";
 }
 else{
     echo "Error creating table: " . $conn->error ."<br>";
