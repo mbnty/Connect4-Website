@@ -1,0 +1,29 @@
+td {
+    border: 1px solid black;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
+table{
+    border: 1px solid black;
+    width: 200px;
+    height: 100px;
+}
+
+.coin{
+    background-color: red;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+}
+
+.coin2{
+    background-color: yellow;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+}

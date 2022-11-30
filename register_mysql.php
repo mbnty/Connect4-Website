@@ -9,6 +9,7 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating database: " . $conn->error ."<br>";
 }
 
+//conect to the connect4 database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $sql = "CREATE TABLE IF NOT EXISTS admin(
@@ -98,7 +99,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                //header("location: login_mysql.php");
+                header("location: login.html");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -107,7 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
     // Close connection
-    mysqli_close($conn);
+    mysqli_close($conn);;
 }
 ?>
  
