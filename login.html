@@ -46,8 +46,8 @@
             xhr.send(form_data);
             return false;
         }
-
         function redirect(){
+            console.log(xhr);
             if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200){
                 console.log("Login successful.");
                 window.location.replace("index2.html");

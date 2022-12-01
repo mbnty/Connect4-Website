@@ -55,6 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 http_response_code(401);
             }
         } else{
+            http_response_code(401);
             echo "Oops! Something went wrong. Please try again later.";
         }
     }
