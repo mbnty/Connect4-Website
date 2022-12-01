@@ -4,21 +4,26 @@ require_once 'config_user.php';
 
 $sql = "CREATE DATABASE IF NOT EXISTS ". $dbname;
 if ($conn->query($sql) === TRUE) {
-    echo "Database ". $dbname ." created successfully<br>";
+    //echo "Database ". $dbname ." created successfully<br>";
+    echo "";
 } else {
     echo "Error creating database: " . $conn->error ."<br>";
 }
 
+//conect to the connect4 database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $sql = "CREATE TABLE IF NOT EXISTS admin(
     pkey INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     login VARCHAR(30) NOT NULL,
+    date_created DATETIME NOT NULL,
     password VARCHAR(128) NOT NULL
 )";
 
+
 if($conn->query($sql)===TRUE){
-    echo "Table admin created successfully <br>";
+    //echo "Table admin created successfully <br>";
+    echo "";
 }
 else{
     echo "Error creating table: " . $conn->error ."<br>";
@@ -81,11 +86,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO admin (login, password) VALUES (?,?)";
+        $sql = "INSERT INTO admin (login, date_created, password) VALUES (?,?,?)";
          
         if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            $date_user_created = date('Y-m-d H:i:s');
+            echo "DATE USER IS CREATED: " . $date_user_created;
+            mysqli_stmt_bind_param($stmt, "sss", $param_username, $date_user_created, $param_password);
             
             // Set parameters
             $param_username = $username;
@@ -94,7 +101,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
-                header("location: login_mysql.php");
+                header("location: login.html");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -103,7 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
     // Close connection
-    mysqli_close($conn);
+    mysqli_close($conn);;
 }
 ?>
  
