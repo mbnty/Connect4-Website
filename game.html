@@ -6,26 +6,24 @@
     </head>
     <header id="buttonSpace">
         <button onclick="pickSize()">Start</button>
-        <button><a href="game_rdbms.php">Quit</button>
+        <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
     </header>
     <body>
+        <section id="currplayer"></section>
         <section id="tablespace">
         </section>
 
         <script>
-            class player{
-                constructor(c, w, l, t){
-                    this.color = c;
-                    this.wins = w;
-                    this.loses = l;
-                    this.turnvalue;
-                }
-            }
+            var currentplayer = 1;
+            var gameStart = false;
 
             const tablePos = []; //index of positions
             const tableValues = []; //moves made based on index
 
             const gameboard = [];
+
+            var GAMEROWS;
+            var GAMECOL;
 
             var space = document.getElementById("tablespace");
 
@@ -46,22 +44,8 @@
                 var row = the_id[1];
                 var col = the_id[4];
                 let columnStats = [];
-                /*
-                let p = 0;
-                while( p < 6){
-                    if(document.getElementById("["+p+"]["+col+"]").hasChildNodes()){
-                        if(p == 0){
-                            break;
-                        }
-                        document.getElementById("["+(p-1)+"]["+col+"]").appendChild(document.createTextNode(
-                            "Filled"
-                        ));
-                    }
-                    p++;
-                }
-                */
 
-                for(let i = 0; i < 6; i++){ //looks at if column is filled
+                for(let i = 0; i < GAMEROWS; i++){ //looks at if column is filled
                     let temp = document.getElementById("["+i+"]["+col+"]");
                     if (temp.hasChildNodes() == false){
                         columnStats.push('0');
@@ -87,9 +71,32 @@
                 checkID(the_id);
                 checkColumn(the_id);
                 let x = document.getElementById(the_id);
-                y = document.createElement("div");
-                y.setAttribute("class", "coin");
-                x.appendChild(y);
+
+                if(currentplayer == 1){
+                    y = document.createElement("div");
+                    y.setAttribute("class", "coin");
+                    x.appendChild(y);
+                    currentplayer = 0;
+                }else{
+                    y = document.createElement("div");
+                    y.setAttribute("class", "coin2");
+                    x.appendChild(y);
+                    currentplayer = 1
+                }
+                setplayer();
+            }
+
+            function setplayer(){
+                if(gameStart == false){
+                    currentplayer = Math.random() % 2;
+                    gameStart = true;
+                }
+                var playerspace = document.getElementById("currplayer");
+                if(currentplayer == 1){
+                    playerspace.innerHTML = "Go Player 1";
+                }else{
+                    playerspace.innerHTML = "Go Player 2";
+                }
             }
 
             function pickSize(){
@@ -125,6 +132,8 @@
             }
             
             function makeTable(Grow, Gcolumn){
+                GAMEROWS = Grow;
+                GAMECOL = Gcolumn;
                 var table = document.createElement("table");
                 
                 removeTable(space); //removes preivious  table
@@ -148,9 +157,15 @@
                     }
                     table.appendChild(row);
                 }
+                if(Grow == 6 && Gcolumn == 7){
+                    table.setAttribute("id", "board");
+                }else{
+                    table.setAttribute("id", "board2");
+                }
                 space.appendChild(table);
-                console.log(tableValues);
-                console.log(tablePos);
+                //console.log(tableValues);
+                //console.log(tablePos);
+                setplayer();
             }
         </script>
     </body>
