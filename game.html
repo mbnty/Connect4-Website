@@ -39,11 +39,10 @@
             function checkColumn(the_id){
                 let num = String(the_id);
                 let val = num[1];
-                console.log("Column number = " + val);
+                //console.log("Column number = " + val);
             }
 
             function findOpenRow(the_id){
-                console.log(the_id);
                 var row = the_id[1];
                 var col = the_id[4];
                 let columnStats = [];
@@ -57,7 +56,7 @@
                     }
                 }
                 for(let j = columnStats.length - 1; j >= 0; j--){ //actually piece placement
-                    console.log(columnStats[j] == String(0));
+                    //console.log(columnStats[j] == String(0));
                     if(columnStats[j] === String(0)){
                         if(columnStats[j+1] === String(0)){
                             continue;
@@ -71,7 +70,7 @@
             }
 
             function placePiece(the_id){
-                checkID(the_id);
+                //checkID(the_id);
                 checkColumn(the_id);
                 let x = document.getElementById(the_id);
 
@@ -86,6 +85,7 @@
                     x.appendChild(y);
                     currentplayer = 1
                 }
+                findWin(currentplayer);
                 setplayer();
             }
 
@@ -117,7 +117,6 @@
             }
 
             function removeElements(space){
-                console.log(space);
                 while(space.firstChild){
                     space.removeChild(space.firstChild);
                 }
@@ -133,15 +132,13 @@
                 
                 var p1button = document.createElement("button");
                 p1button.innerHTML = "Player 1: Flip Board";
-                p1button.setAttribute("onclick","tempUsePowerUp(1)")
+                p1button.setAttribute("onclick","UsePowerUp(1)")
                 powerSpace.appendChild(p1button);
 
                 var p2button = document.createElement("button");
                 p2button.innerHTML = "Player 2: Flip Board";
-                p2button.setAttribute("onclick","usepowerup(0)")
-                powerSpace.appendChild(p2button);
-
-                
+                p2button.setAttribute("onclick","UsePowerUp(0)")
+                powerSpace.appendChild(p2button);  
             }
 
             function readBoard(){ //use this to find wins
@@ -162,7 +159,68 @@
                     }
                     tableTest.push(testrow);
                 }
-                console.log(tableTest);
+                return tableTest;
+            }
+            /*
+            [0,0,2,1,0,0,0]
+            [0,0,2,1,0,0,0]
+            [0,0,2,1,0,0,0]
+            [0,0,2,1,0,0,0]
+            [0,0,0,0,0,0,0]
+            [0,0,0,0,0,0,0]
+            */
+            function findWin(player){
+                var OneWins = 0;
+                var TwoWins = 0;
+                let tableStats = readBoard();
+                tableStats = tableStats.reverse();
+                console.log(tableStats);
+
+                for(let i=0; i < GAMEROWS; i++){ //horizontal
+                    for(let j = 0; j < GAMECOL-3;j++){
+                        if(tableStats[i][j]==1 && tableStats[i][j+1]==1 && tableStats[i][j+2]==1 && tableStats[i][j+3]==1){
+                            console.log("Player 1 Win");
+                        }
+                        if(tableStats[i][j]==2 && tableStats[i][j+1]==2 && tableStats[i][j+2]==2 && tableStats[i][j+3]==2){
+                            console.log("Player 2 Win");
+                        }
+                    }
+                }
+
+                for(let i=0; i < GAMEROWS-3; i++){ //vertiacal
+                    for(let j = 0; j < GAMECOL;j++){
+                        if(tableStats[i][j]==1 && tableStats[i+1][j]==1 && tableStats[i+2][j]==1 && tableStats[i+3][j]==1){
+                            console.log("Player 1 Win");
+                        }
+                        if(tableStats[i][j]==2 && tableStats[i+1][j]==2 && tableStats[i+2][j]==2 && tableStats[i+3][j]==2){
+                            console.log("Player 2 Win");
+                        }
+                    }
+                }
+
+                for(let i=0; i < GAMEROWS-3; i++){ //postive slope
+                    for(let j = 0; j < GAMECOL-3;j++){
+                        if(tableStats[i][j]==1 && tableStats[i+1][j+1]==1 && tableStats[i+2][j+2]==1 && tableStats[i+3][j+3]==1){
+                            console.log("Player 1 Win");
+                        }
+                        if(tableStats[i][j]==2 && tableStats[i+1][j+1]==2 && tableStats[i+2][j+2]==2 && tableStats[i+3][j+3]==2){
+                            console.log("Player 2 Win");
+                        }
+                    }
+                }
+
+                for(let i=0; i < GAMEROWS; i++){ //negative slope
+                    for(let j = 0; j < GAMECOL-3;j++){
+                        if(tableStats[i][j]==1 && tableStats[i+1][j-1]==1 && tableStats[i+2][j-2]==1 && tableStats[i+3][j-3]==1){
+                            console.log("Player 1 Win");
+                        }
+                        if(tableStats[i][j]==2 && tableStats[i+1][j-1]==2 && tableStats[i+2][j-2]==2 && tableStats[i+3][j-3]==2){
+                            console.log("Player 2 Win");
+                        }
+                    }
+                }
+               
+                
             }
             
             function readcolumn(column){
@@ -225,23 +283,11 @@
                 }
             }
 
-            function tempUsePowerUp(player){
+            function UsePowerUp(player){
                 var messageSpace = document.getElementById("powerMessage");
                 if(player == currentplayer){
-                    for(let i = 0; i < GAMEROWS; i++){
+                    for(let i = 0; i <= GAMEROWS; i++){
                         autoplace(i, clearcolumn(i));
-                    }
-                }else{
-                    messageSpace.innerHTML = "Player " + player + ", it is not your turn."
-                }
-            }
-
-            function usepowerup(player){
-                var messageSpace = document.getElementById("powerMessage");
-                if(player == currentplayer){
-                    var columnpost = 0;
-                    for(let i = 0; i < GAMECOL; i++){
-
                     }
                 }else{
                     messageSpace.innerHTML = "Player " + player + ", it is not your turn."
