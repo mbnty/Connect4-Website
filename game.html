@@ -16,6 +16,11 @@
         <p id="powerMessage"></p>
 
         <script>
+            var turnNumber = 0;
+
+            var timeStart;
+            var timeEnd;
+
             var currentplayer = 1; // player turn Player 1: 1 and Player 2: 0
             var gameStart = false;
 
@@ -31,6 +36,16 @@
             var GAMECOL;
 
             var space = document.getElementById("tablespace");
+
+            function startTime(){
+                timeStart = new Date();
+                return(timeStart);
+            }
+
+            function endTime(){
+                timeEnd = new Date() - timeStart;
+                return timeEnd; //miliseconds
+            }
 
             function checkID(the_id){
                 console.log(the_id);
@@ -71,17 +86,20 @@
 
             function placePiece(the_id){
                 //checkID(the_id);
-                checkColumn(the_id);
+                //checkColumn(the_id);
                 let x = document.getElementById(the_id);
+                turnNumber++;
 
                 if(currentplayer == 1){
                     y = document.createElement("div");
                     y.setAttribute("class", "coin");
+                    y.innerHTML = turnNumber;
                     x.appendChild(y);
                     currentplayer = 0;
                 }else{
                     y = document.createElement("div");
                     y.setAttribute("class", "coin2");
+                    y.innerHTML = turnNumber;
                     x.appendChild(y);
                     currentplayer = 1
                 }
@@ -161,14 +179,6 @@
                 }
                 return tableTest;
             }
-            /*
-            [0,0,2,1,0,0,0]
-            [0,0,2,1,0,0,0]
-            [0,0,2,1,0,0,0]
-            [0,0,2,1,0,0,0]
-            [0,0,0,0,0,0,0]
-            [0,0,0,0,0,0,0]
-            */
             function findWin(player){
                 var OneWins = 0;
                 var TwoWins = 0;
@@ -179,9 +189,11 @@
                 for(let i=0; i < GAMEROWS; i++){ //horizontal
                     for(let j = 0; j < GAMECOL-3;j++){
                         if(tableStats[i][j]==1 && tableStats[i][j+1]==1 && tableStats[i][j+2]==1 && tableStats[i][j+3]==1){
+                            OneWins++;
                             console.log("Player 1 Win");
                         }
                         if(tableStats[i][j]==2 && tableStats[i][j+1]==2 && tableStats[i][j+2]==2 && tableStats[i][j+3]==2){
+                            TwoWins++;
                             console.log("Player 2 Win");
                         }
                     }
@@ -190,9 +202,11 @@
                 for(let i=0; i < GAMEROWS-3; i++){ //vertiacal
                     for(let j = 0; j < GAMECOL;j++){
                         if(tableStats[i][j]==1 && tableStats[i+1][j]==1 && tableStats[i+2][j]==1 && tableStats[i+3][j]==1){
+                            OneWins++;
                             console.log("Player 1 Win");
                         }
                         if(tableStats[i][j]==2 && tableStats[i+1][j]==2 && tableStats[i+2][j]==2 && tableStats[i+3][j]==2){
+                            TwoWins++;
                             console.log("Player 2 Win");
                         }
                     }
@@ -201,9 +215,11 @@
                 for(let i=0; i < GAMEROWS-3; i++){ //postive slope
                     for(let j = 0; j < GAMECOL-3;j++){
                         if(tableStats[i][j]==1 && tableStats[i+1][j+1]==1 && tableStats[i+2][j+2]==1 && tableStats[i+3][j+3]==1){
+                            OneWins++;
                             console.log("Player 1 Win");
                         }
                         if(tableStats[i][j]==2 && tableStats[i+1][j+1]==2 && tableStats[i+2][j+2]==2 && tableStats[i+3][j+3]==2){
+                            TwoWins++;
                             console.log("Player 2 Win");
                         }
                     }
@@ -212,15 +228,18 @@
                 for(let i=0; i < GAMEROWS; i++){ //negative slope
                     for(let j = 0; j < GAMECOL-3;j++){
                         if(tableStats[i][j]==1 && tableStats[i+1][j-1]==1 && tableStats[i+2][j-2]==1 && tableStats[i+3][j-3]==1){
+                            OneWins++;
                             console.log("Player 1 Win");
                         }
                         if(tableStats[i][j]==2 && tableStats[i+1][j-1]==2 && tableStats[i+2][j-2]==2 && tableStats[i+3][j-3]==2){
+                            TwoWins++;
                             console.log("Player 2 Win");
                         }
                     }
                 }
-               
-                
+                if(OneWins > 0 || TwoWins > 0){
+                    console.log(endTime());
+                }
             }
             
             function readcolumn(column){
@@ -328,6 +347,7 @@
                 space.appendChild(table);
                 //console.log(tableValues);
                 //console.log(tablePos);
+                console.log(startTime());
                 setplayer();
                 makepowerups();
             }
