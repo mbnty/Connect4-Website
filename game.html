@@ -10,24 +10,27 @@
     </header>
     <body>
         <section id="currplayer"></section>
-        <section id="tablespace">
-        </section>
+        <section id="tablespace"></section>
+
+        <section id="powerups"></section>
+        <p id="powerMessage"></p>
 
         <script>
-            var currentplayer = 1;
+            var currentplayer = 1; // player turn Player 1: 1 and Player 2: 0
             var gameStart = false;
+
+            var player1 = "coin";
+            var player2 = "coin2";
 
             const tablePos = []; //index of positions
             const tableValues = []; //moves made based on index
 
-            const gameboard = [];
+            var boardinfo = [];
 
             var GAMEROWS;
             var GAMECOL;
 
             var space = document.getElementById("tablespace");
-
-            var One = new player()
 
             function checkID(the_id){
                 console.log(the_id);
@@ -53,7 +56,7 @@
                         columnStats.push('1');
                     }
                 }
-                for(let j = columnStats.length - 1; j >= 0; j--){
+                for(let j = columnStats.length - 1; j >= 0; j--){ //actually piece placement
                     console.log(columnStats[j] == String(0));
                     if(columnStats[j] === String(0)){
                         if(columnStats[j+1] === String(0)){
@@ -113,22 +116,136 @@
                 place.appendChild(buttonBig);
             }
 
-            function removeTable(table){
-                while(table.firstChild){
-                    table.removeChild(table.firstChild);
+            function removeElements(space){
+                console.log(space);
+                while(space.firstChild){
+                    space.removeChild(space.firstChild);
                 }
-                return table;
+                return space;
             }
 
             function resetTable(){
-                gameboard = [];
+                boardinfo = [];
             }
 
-            function createTable(row, column){
-                resetTable();
+            function makepowerups(){
+                var powerSpace = document.getElementById("powerups");
+                
+                var p1button = document.createElement("button");
+                p1button.innerHTML = "Player 1: Flip Board";
+                p1button.setAttribute("onclick","tempUsePowerUp(1)")
+                powerSpace.appendChild(p1button);
 
-                var gameRow = row;
-                var gameCol = column;
+                var p2button = document.createElement("button");
+                p2button.innerHTML = "Player 2: Flip Board";
+                p2button.setAttribute("onclick","usepowerup(0)")
+                powerSpace.appendChild(p2button);
+
+                
+            }
+
+            function readBoard(){ //use this to find wins
+                var tableTest = [];
+                for(let i = 0; i < GAMEROWS; i++){
+                    var testrow = new Array ();
+                    for(let j = 0; j < GAMECOL; j++){
+                        let test = document.getElementById("["+i+"]["+j+"]");
+                        if(test.firstChild != null){
+                            if(test.firstChild.classList.contains(player1)){
+                                testrow.push(1);
+                            }else{
+                                testrow.push(2);
+                            }
+                        }else{
+                            testrow.push(0);
+                        }
+                    }
+                    tableTest.push(testrow);
+                }
+                console.log(tableTest);
+            }
+            
+            function readcolumn(column){
+                let columnStats = [];
+                for(let i = 0; i < GAMEROWS; i++){
+                    let currCell = document.getElementById("["+i+"]["+column+"]");
+                    if(currCell.firstChild != null){
+                        if(currCell.firstChild.classList.contains(player1)== true){
+                            columnStats.push(1);
+                        }
+                        else{
+                            columnStats.push(2);
+                        }
+                    }else{
+                        columnStats.push(0);
+                    }
+                }
+                return columnStats;
+            }
+
+            function clearcolumn(column){
+                var currentColumn = [];
+                currentColumn = readcolumn(column);
+                for(let i = 0; i < GAMECOL; i++){
+                    let currCell = document.getElementById("["+i+"]["+column+"]");
+                    if(currCell == null){
+                        break;
+                    }
+                    removeElements(currCell);
+                }
+                return currentColumn;
+            }
+
+            function autoplace(column, columnArray){
+                var tempCol = [];
+                for(let i = 0; i < columnArray.length; i++){ //adding values
+                    if(columnArray[i] != 0){
+                        tempCol.push(columnArray[i]);
+                    }
+                }
+                for(let i = 0; i < columnArray.length; i++){ //placeing 0 on rest of values
+                    if(tempCol.length == columnArray.length){
+                        break;
+                    }
+                    tempCol.push(0);
+                    
+                }
+                tempCol = tempCol.reverse();
+                for(let k = 0; k < tempCol.length; k++){
+                    let currCell = document.getElementById("["+k+"]["+column+"]");
+                    if(tempCol[k] == 1){
+                        let piece = document.createElement("div");
+                        piece.setAttribute("class","coin");
+                        currCell.appendChild(piece);
+                    }else if(tempCol[k] == 2){
+                        let piece = document.createElement("div");
+                        piece.setAttribute("class","coin2");
+                        currCell.appendChild(piece);
+                    }
+                }
+            }
+
+            function tempUsePowerUp(player){
+                var messageSpace = document.getElementById("powerMessage");
+                if(player == currentplayer){
+                    for(let i = 0; i < GAMEROWS; i++){
+                        autoplace(i, clearcolumn(i));
+                    }
+                }else{
+                    messageSpace.innerHTML = "Player " + player + ", it is not your turn."
+                }
+            }
+
+            function usepowerup(player){
+                var messageSpace = document.getElementById("powerMessage");
+                if(player == currentplayer){
+                    var columnpost = 0;
+                    for(let i = 0; i < GAMECOL; i++){
+
+                    }
+                }else{
+                    messageSpace.innerHTML = "Player " + player + ", it is not your turn."
+                }
             }
             
             function makeTable(Grow, Gcolumn){
@@ -136,7 +253,7 @@
                 GAMECOL = Gcolumn;
                 var table = document.createElement("table");
                 
-                removeTable(space); //removes preivious  table
+                removeElements(space); //removes preivious  table
 
                 var tableArea = new Array(Gcolumn); 
                 for(let i; i < Grow; i++){
@@ -166,6 +283,7 @@
                 //console.log(tableValues);
                 //console.log(tablePos);
                 setplayer();
+                makepowerups();
             }
         </script>
     </body>
