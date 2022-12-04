@@ -8,14 +8,20 @@
     </head>
     <header id="buttonSpace">
         <h3 id="user_game_page" style="float: right"></h3>
-        <button onclick="pickSize()">Start</button>
         <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
     </header>
     <body>
         <button onclick="pickSize()">Start</button>
         <section id="buttonSpace"></section>
         <section id="currplayer"></section>
+        <section id="time"></section>
         <section id="tablespace"></section>
+
+        <section id="player1Stats"></section>
+        <section id="player1Stats4"></section>
+
+        <section id="player2Stats"></section>
+        <section id="player2Stats4"></section>
 
         <section id="powerups"></section>
         <p id="powerMessage"></p>
@@ -23,6 +29,7 @@
         <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
         <button onclick="sendToLeaderboard()">TEST MEEEEEEE</button>
 
-        <script src="game_functions.js"></script>
+        
     </body>
+    <script src="game_functions.js"></script>
 </html>
