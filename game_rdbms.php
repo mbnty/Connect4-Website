@@ -33,8 +33,10 @@ else{
 if($_SERVER['REQUEST_METHOD'] = 'POST'){
 
     //query to check if user exists in the leaderboard
-    $sql = 'SELECT `login` from leaderboard WHERE `login`="?"';
+    $sql = 'SELECT `login` from leaderboard WHERE `login`=?;';
+    echo $sql;
     if($stmt = mysqli_prepare($conn, $sql)){
+        echo json_encode($stmt)."<br>";
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $current_user);
         // Attempt to execute the prepared statement
@@ -45,8 +47,10 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
             echo "VAR number is: ".$var;
             // Check if username exists
             if($var == 1){
-                $sql = "SELECT * from leaderboard WHERE `login` =".$current_user;
+                $sql = "SELECT * from leaderboard WHERE `login`=".$current_user.";";
+                echo $sql;
                 $result = $conn->query($sql);
+                echo $result;
                 $row = $result->fetch_assoc();
         
                 //get current info from leaderboard
@@ -111,8 +115,6 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
 }
 
 $conn->close();
-
-mysqli_close($conn);
 
 //after updating leaderboard, go back to home page
 //header("location: index2.html");
