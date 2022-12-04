@@ -4,7 +4,13 @@
         <title>Connect 4</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="gamestyle.css">
+        <script src="display_username.js"></script>
     </head>
+    <header id="buttonSpace">
+        <h3 id="user_game_page" style="float: right"></h3>
+        <button onclick="pickSize()">Start</button>
+        <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
+    </header>
     <body>
         <button onclick="pickSize()">Start</button>
         <section id="buttonSpace"></section>
