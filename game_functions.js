@@ -1,5 +1,7 @@
 var turnNumber = 0;
 
+var typeboard = 7;
+
 var timeStart;
 var timeEnd;
 
@@ -84,6 +86,7 @@ function placePiece(the_id){
         x.appendChild(y);
         currentplayer = 1
     }
+    detectConnects();
     findWin(currentplayer);
     setplayer();
 }
@@ -204,10 +207,10 @@ function findWin(player){
                 console.log("Player 2 Win");
             }
         }
-    }
-
+    }   
     for(let i=0; i < GAMEROWS; i++){ //negative slope
-        for(let j = 0; j < GAMECOL-3;j++){
+        for(let j = 0; j < GAMECOL;j++){
+            //console.log("["+i+"]["+j+"]");
             if(tableStats[i][j]==1 && tableStats[i+1][j-1]==1 && tableStats[i+2][j-2]==1 && tableStats[i+3][j-3]==1){
                 OneWins++;
                 console.log("Player 1 Win");
@@ -218,9 +221,94 @@ function findWin(player){
             }
         }
     }
+    displayConnections4(OneWins,TwoWins);
     if(OneWins > 0 || TwoWins > 0){
         console.log(endTime());
     }
+}
+
+function detectConnects(){
+    var OneConnection = 0;
+    var TwoConnection = 0;
+    let tableStats = readBoard();
+    tableStats = tableStats.reverse();
+    //console.log(tableStats);
+
+    for(let i=0; i < GAMEROWS; i++){ //horizontal
+        for(let j = 0; j < GAMECOL-3;j++){
+            if(tableStats[i][j]==1 && tableStats[i][j+1]==1 && tableStats[i][j+2]==1){
+                OneConnection++;
+            }
+            if(tableStats[i][j]==2 && tableStats[i][j+1]==2 && tableStats[i][j+2]==2){
+                TwoConnection++;
+            }
+        }
+    }
+    for(let i=0; i < GAMEROWS-3; i++){ //vertiacal
+        for(let j = 0; j < GAMECOL;j++){
+            if(tableStats[i][j]==1 && tableStats[i+1][j]==1 && tableStats[i+2][j]==1){
+                OneConnection++;
+            }
+            if(tableStats[i][j]==2 && tableStats[i+1][j]==2 && tableStats[i+2][j]==2){
+                TwoConnection++;
+            }
+        }
+    }
+    for(let i=0; i < GAMEROWS-3; i++){ //postive slope
+        for(let j = 0; j < GAMECOL-3;j++){
+            if(tableStats[i][j]==1 && tableStats[i+1][j+1]==1 && tableStats[i+2][j+2]==1){
+                OneConnection++;
+            }
+            if(tableStats[i][j]==2 && tableStats[i+1][j+1]==2 && tableStats[i+2][j+2]==2){
+                TwoConnection++;
+            }
+        }
+    }
+    for(let i=0; i < GAMEROWS; i++){ //negative slope
+        for(let j = 0; j < GAMECOL;j++){
+            if(tableStats[i][j]==1 && tableStats[i+1][j-1]==1 && tableStats[i+2][j-2]==1){
+                OneConnection++;
+            }
+            if(tableStats[i][j]==2 && tableStats[i+1][j-1]==2 && tableStats[i+2][j-2]==2){
+                TwoConnection++;
+            }
+        }
+    }
+    displayConnections3(OneConnection, TwoConnection);
+}
+
+function displayConnections3(P1number, P2number){
+    var P1Space = document.getElementById("player1Stats");
+    var P2Space = document.getElementById("player2Stats");
+
+    removeElements(P1Space);
+    removeElements(P2Space);
+
+    var P1Stats = document.createElement("div");
+    var P2Stats = document.createElement("div");
+
+    P1Stats.innerHTML = "Player 1's 3 connections " + P1number;
+    P2Stats.innerHTML = "Player 2's 3 connections " + P2number;
+
+    P1Space.appendChild(P1Stats);
+    P2Space.appendChild(P2Stats);
+}
+
+function displayConnections4(P1number, P2number){
+    var P1Space = document.getElementById("player1Stats4");
+    var P2Space = document.getElementById("player2Stats4");
+
+    removeElements(P1Space);
+    removeElements(P2Space);
+
+    var P1Stats = document.createElement("div");
+    var P2Stats = document.createElement("div");
+
+    P1Stats.innerHTML = "Player 1's 4 connections " + P1number;
+    P2Stats.innerHTML = "Player 2's 4 connections " + P2number;
+
+    P1Space.appendChild(P1Stats);
+    P2Space.appendChild(P2Stats);
 }
             
 function readcolumn(column){
@@ -298,6 +386,10 @@ function makeTable(Grow, Gcolumn){
     GAMEROWS = Grow;
     GAMECOL = Gcolumn;
     var table = document.createElement("table");
+
+    if(Grow == 8 && Gcolumn == 9){
+        typeboard = 8;
+    }
                 
     removeElements(space); //removes preivious  table
 
