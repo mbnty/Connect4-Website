@@ -45,7 +45,7 @@ function startTime(){
     return(timeStart);
 }
 
-function endTime(){
+function endTime(){ //returns end time - start time
     timeEnd = new Date() - timeStart;
     return timeEnd; //miliseconds
 }
