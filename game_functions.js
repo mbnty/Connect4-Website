@@ -1,15 +1,19 @@
 var turnNumber = 0;
 
+var gameDone = false;
+
 var typeboard = 7;
 
 var timeStart;
 var timeEnd;
 
-var currentplayer = 1; // player turn Player 1: 1 and Player 2: 0
+var currentplayer; // player turn Player 1: 1 and Player 2: 0
 var gameStart = false;
 
 var player1 = "coin";
 var player2 = "coin2";
+var player1Power = true;
+var player2Power = true;
 
 const tablePos = []; //index of positions
 const tableValues = []; //moves made based on index
@@ -20,6 +24,21 @@ var GAMEROWS;
 var GAMECOL;
 
 var space = document.getElementById("tablespace");
+
+function reset(){
+    turnNumber = 0;
+    gameDone = false;
+    typeboard = 7;
+    timeStart = new Date();
+    timeEnd = 0;
+    gameStart = true;
+    currentplayer = Math.random() % 2;
+    player1Power = true;
+    player2Power = true;
+    for(let i = 0; i < GAMECOL; i++){
+        clearcolumn(i);
+    }
+}
 
 function startTime(){
     timeStart = new Date();
@@ -39,6 +58,22 @@ function checkColumn(the_id){
     let num = String(the_id);
     let val = num[1];
     //console.log("Column number = " + val);
+}
+
+function displayStartTime(){
+    timeSpace = document.getElementById("startTime");
+    removeElements(timeSpace);
+    var time = document.createElement("div");
+    time.innerHTML = "Game Started: " + startTime();
+    timeSpace.appendChild(time);
+}
+
+function displayEndTime(){
+    timeSpace = document.getElementById("endTime");
+    removeElements(timeSpace);
+    var time = document.createElement("div");
+    time.innerHTML = "Game Ended in " + (endTime()/60) + "seconds";
+    timeSpace.appendChild(time);
 }
 
 function findOpenRow(the_id){
@@ -116,6 +151,16 @@ function pickSize(){
     buttonBig.innerHTML = "Board Size 8x9"
     buttonBig.setAttribute("onclick", "makeTable(8,9)");
     place.appendChild(buttonBig);
+}
+
+function resetbutton(){
+    var resetSpace = document.getElementById("restart");
+
+    var reButton = document.createElement("button");
+    reButton.setAttribute("onclick", "reset()");
+    reButton.innerHTML = "Restart";
+
+    resetSpace.appendChild(reButton);
 }
 
 function removeElements(space){
@@ -223,7 +268,7 @@ function findWin(player){
     }
     displayConnections4(OneWins,TwoWins);
     if(OneWins > 0 || TwoWins > 0){
-        console.log(endTime());
+        displayEndTime();
     }
 }
 
@@ -373,12 +418,20 @@ function autoplace(column, columnArray){
 
 function UsePowerUp(player){
     var messageSpace = document.getElementById("powerMessage");
-    if(player == currentplayer){
+    console.log(player + " and " + currentplayer);
+    if(player == currentplayer && player2Power == true){
         for(let i = 0; i <= GAMEROWS; i++){
             autoplace(i, clearcolumn(i));
         }
-    }else{
-        messageSpace.innerHTML = "Player " + player + ", it is not your turn."
+        player2Power = false;
+    }else if(player == currentplayer && player1Power == true){
+        for(let i = 0; i <= GAMEROWS; i++){
+            autoplace(i, clearcolumn(i));
+        }
+        player1Power = false;
+    }
+    else{
+        messageSpace.innerHTML = "Player " + player + ", cannot use power";
     }
 }
             
@@ -420,7 +473,8 @@ function makeTable(Grow, Gcolumn){
     space.appendChild(table);
     //console.log(tableValues);
     //console.log(tablePos);
-    console.log(startTime());
+    resetbutton();
+    displayStartTime();
     setplayer();
     makepowerups();
 }
