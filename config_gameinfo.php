@@ -2,9 +2,9 @@
 $servername = "localhost"; // default server name
 $username = "root"; // user name that you created
 $password = ""; // password that you created
-$dbname_game = "gameinfo";
+$dbname_game = "connect4";
 
-$conn = new mysqli($servername, $username, $password, $dbname_game);
+$conn = new mysqli($servername, $username, $password);
 
 // Check connection
 if ($conn->connect_error) {

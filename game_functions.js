@@ -19,12 +19,53 @@ var GAMECOL;
 
 var space = document.getElementById("tablespace");
 
-function startTime(){
+//variables to send to leaderboard
+var total_games = 1;
+var wins = 0;
+var time_played = 0;
+var turn_count = 0;
+var xhr;
+
+//sends player info to leaderboard
+function sendToLeaderboard(){
+    wins;
+    time_played = parseInt(endTime() / 1000); //milliseconds to seconds
+    turn_count = (turnNumber / 2) + 1; //rounds up
+
+    fd = new FormData();
+    fd.append("totGames", 420);
+    fd.append("victories", 69);
+    fd.append("playTime", time_played);
+    fd.append("turns", 1337);
+
+    xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = leaderboardDB;
+    xhr.open("POST", "game_rdbms.php");
+    xhr.send(fd)//send the get
+}
+
+function leaderboardDB() {
+    try {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          console.log("server status: "+xhr.status);
+          console.log("server response: "+xhr.responseText);
+        } else {
+          alert('There was a problem with the request.');
+        }
+      }
+    }
+    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
+      alert('Caught Exception: ' + e.description);
+    }
+  }
+
+function startTime(){ //gets start time of game
     timeStart = new Date();
     return(timeStart);
 }
 
-function endTime(){
+function endTime(){ //returns end time - start time
     timeEnd = new Date() - timeStart;
     return timeEnd; //miliseconds
 }
