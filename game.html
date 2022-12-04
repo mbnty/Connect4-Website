@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="gamestyle.css">
         <script src="display_username.js"></script>
     </head>
-    <header id="buttonSpace">
+    <header>
         <h3 id="user_game_page" style="float: right"></h3>
         <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
     </header>
@@ -14,7 +14,8 @@
         <button onclick="pickSize()">Start</button>
         <section id="buttonSpace"></section>
         <section id="currplayer"></section>
-        <section id="time"></section>
+        <section id="startTime"></section>
+        <section id="endTime"></section>
         <section id="tablespace"></section>
 
         <section id="player1Stats"></section>
@@ -25,6 +26,8 @@
 
         <section id="powerups"></section>
         <p id="powerMessage"></p>
+
+        <section id="restart"></section>
 
         <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
         <button onclick="sendToLeaderboard()">TEST MEEEEEEE</button>
