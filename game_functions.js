@@ -493,6 +493,10 @@ function sendToLeaderboard(){
     turn_count = (turnNumber / 2) + 1; //rounds up
 
     fd = new FormData();
+    // fd.append("totGames", total_games);
+    // fd.append("victories", wins);
+    // fd.append("playTime", time_played);
+    // fd.append("turns", turn_count);
     fd.append("totGames", 420);
     fd.append("victories", 69);
     fd.append("playTime", time_played);

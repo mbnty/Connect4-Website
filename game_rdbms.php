@@ -4,6 +4,7 @@ require_once "config_gameinfo.php";
 session_start();
 
 $current_user = $_SESSION['username'];
+echo $current_user."<br>";
 
 $conn = new mysqli($servername, $username, $password, $dbname_game);
 
@@ -33,22 +34,24 @@ else{
 if($_SERVER['REQUEST_METHOD'] = 'POST'){
 
     //query to check if user exists in the leaderboard
-    $sql = 'SELECT `login` from leaderboard WHERE `login`=?;';
-    echo $sql;
+    $sql = 'SELECT `login`,`total_games`, `wins`, `time_played`, `turn_count` FROM leaderboard WHERE `login`=?;';
+    echo $sql."<br>";
     if($stmt = mysqli_prepare($conn, $sql)){
-        echo json_encode($stmt)."<br>";
+        echo "JSON encoding line 37 SQL: ".json_encode($stmt)."<br>";
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "s", $current_user);
+        $total_games = 0;
+        $wins = 0;
+        $time_played = "";
+        $turn_count = 0;
+        mysqli_stmt_bind_param($stmt, "siisi", $current_user, $total_games, $wins, $time_played, $turn_count);
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
             // Store result
             mysqli_stmt_store_result($stmt);  
             $var = mysqli_stmt_num_rows($stmt);
-            echo "VAR number is: ".$var;
+            echo "VAR number is: ".$var."<br>";
             // Check if username exists
             if($var == 1){
-                $sql = "SELECT * from leaderboard WHERE `login`=".$current_user.";";
-                echo $sql;
                 $result = $conn->query($sql);
                 echo $result;
                 $row = $result->fetch_assoc();
@@ -72,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
                 $insert_new_turn = $new_turn_count + $new_turn_count;
         
                 //update the database
-                $sql = "UPDATE leaderboard SET `total_games`, `wins`, `time_played`, `turn_count`) VALUES (?,?,?,?)";
+                $sql = "UPDATE leaderboard SET `total_games`, `wins`, `time_played`, `turn_count` VALUES (?,?,?,?)";
                 if($stmt = mysqli_prepare($conn, $sql)){
                     mysqli_stmt_bind_param($stmt, "iisi", $insert_new_total, $insert_new_wins, $insert_new_time, $insert_new_turn);
                     
@@ -83,6 +86,7 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
                         echo "Updating leaderboard broke.";
                     }
                 }
+                
             }
 
             else{
