@@ -106,7 +106,4 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
 
 $conn->close();
 
-//after updating leaderboard, go back to home page
-//header("location: index2.html");
-
 ?>
