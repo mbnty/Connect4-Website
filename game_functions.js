@@ -1,3 +1,5 @@
+var Player1Wins = 0;
+
 var turnNumber = 0;
 
 var gameDone = false;
@@ -24,6 +26,45 @@ var GAMEROWS;
 var GAMECOL;
 
 var space = document.getElementById("tablespace");
+var button = document.getElementById("buttonSpace");
+var player = document.getElementById("currplayer");
+var begtime = document.getElementById("startTime");
+var lasttime = document.getElementById("endTime");
+var play1Stat = document.getElementById("player1Stats");
+var play1Stat4 = document.getElementById("player1Stats4");
+var play2Stat = document.getElementById("player2Stats");
+var play2Stat4 = document.getElementById("player2Stats4");
+
+var power = document.getElementById("powerups");
+var pMessage = document.getElementById("powerMessage");
+var rbutton = document.getElementById("restart");
+
+function reset(){
+    turnNumber = 0;
+    gameDone = false;
+    typeboard = 7;
+    timeStart = new Date();
+    timeEnd = 0;
+    gameStart = true;
+    currentplayer = Math.random() % 2;
+    player1Power = true;
+    player2Power = true;
+    for(let i = 0; i < GAMECOL; i++){
+        clearcolumn(i);
+    }
+    removeElements(space);
+    removeElements(button);
+    removeElements(player);
+    removeElements(begtime);
+    removeElements(lasttime);
+    removeElements(play1Stat);
+    removeElements(play1Stat4);
+    removeElements(play2Stat);
+    removeElements(play2Stat4);
+    removeElements(power);
+    removeElements(pMessage);
+    removeElements(rbutton);
+}
 
 function startTime(){
     timeStart = new Date();
@@ -252,8 +293,12 @@ function findWin(player){
         }
     }
     displayConnections4(OneWins,TwoWins);
-    if(OneWins > 0 || TwoWins > 0){
+    if(OneWins > 0){
+        Player1Wins++;
         displayEndTime();
+    }else if (TwoWins > 0){
+        displayEndTime();
+        
     }
 }
 
