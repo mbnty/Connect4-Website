@@ -1,4 +1,3 @@
-body{
-    background-color:blanchedalmond;
-    background-attachment: fixed;
+#login_error{
+    color: red;
 }

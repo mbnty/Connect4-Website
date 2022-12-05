@@ -1,143 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>Connect 4</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="gamestyle.css">
+        <script src="display_username.js"></script>
     </head>
-    <header id="buttonSpace">
-        <button onclick="pickSize()">Start</button>
-        <button><a href="game_rdbms.php">Quit</button>
+    <header>
+        <h3 id="user_game_page" style="float: right"></h3>
+        <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
     </header>
     <body>
-        <section id="tablespace">
-        </section>
+        <button onclick="pickSize()">Start</button>
+        <section id="buttonSpace"></section>
+        <section id="currplayer"></section>
+        <section id="startTime"></section>
+        <section id="endTime"></section>
+        <section id="tablespace"></section>
 
-        <script>
-            var playerTurn = 1
+        <section id="player1Stats"></section>
+        <section id="player1Stats4"></section>
 
-            var playerOne = 1
-            var playerTwo = 0
+        <section id="player2Stats"></section>
+        <section id="player2Stats4"></section>
 
-            const tablePos = []; //index of positions
-            const tableValues = []; //moves made based on index
+        <section id="powerups"></section>
+        <p id="powerMessage"></p>
 
-            var space = document.getElementById("tablespace");
+        <section id="restart"></section>
 
-            function checkID(the_id){
-                console.log(the_id);
-            }
+        <form action="game_rdbms.php"><input type="submit" value="Quit"></form>
+        <button onclick="sendToLeaderboard()">TEST MEEEEEEE</button>
 
-            function checkColumn(the_id){
-                let num = String(the_id);
-                let val = num[1];
-                console.log("Column number = " + val);
-            }
-
-            function findOpenRow(the_id){
-                console.log(the_id);
-                var row = the_id[1];
-                var col = the_id[4];
-                let columnStats = [];
-                console.log("Row " + String(row));
-                console.log("Column " + String(col));
-
-                /*
-                let p = 0;
-                while( p < 6){
-                    if(document.getElementById("["+p+"]["+col+"]").hasChildNodes()){
-                        if(p == 0){
-                            break;
-                        }
-                        document.getElementById("["+(p-1)+"]["+col+"]").appendChild(document.createTextNode(
-                            "Filled"
-                        ));
-                    }
-                    p++;
-                }
-                */
-
-                for(let i = 0; i < 6; i++){ //looks at if column is filled
-                    let temp = document.getElementById("["+i+"]["+col+"]");
-                    if (temp.hasChildNodes() == false){
-                        columnStats.push('0');
-                    }else{
-                        columnStats.push('1');
-                    }
-                }
-                console.log(columnStats);
-                for(let j = columnStats.length - 1; j >= 0; j--){
-                    console.log(columnStats[j] == String(0));
-                    if(columnStats[j] === String(0)){
-                        if(columnStats[j+1] === String(0)){
-                            continue;
-                        }else{
-                            console.log("Placing Here");
-                            placePiece("["+j+"]["+col+"]");
-                            return;
-                        }
-                    }
-                }
-                
-            }
-
-            function placePiece(the_id){
-                checkID(the_id);
-                checkColumn(the_id);
-                let x = document.getElementById(the_id);
-                y = document.createElement("div");
-                y.setAttribute("class", "coin");
-                x.appendChild(y);
-            }
-
-            function pickSize(){
-                var place = document.getElementById("buttonSpace");
-
-                var buttonSmall = document.createElement("button");
-                buttonSmall.innerHTML = "Board Size 6x7"
-                buttonSmall.setAttribute("onclick", "makeTable(6,7)");
-                place.appendChild(buttonSmall);
-
-                var buttonBig = document.createElement("button");
-                buttonBig.innerHTML = "Board Size 8x9"
-                buttonBig.setAttribute("onclick", "makeTable(8,9)");
-                place.appendChild(buttonBig);
-            }
-
-            function removeTable(table){
-                while(table.firstChild){
-                    table.removeChild(table.firstChild);
-                }
-                return table;
-            }
-            
-            function makeTable(Grow, Gcolumn){
-                var table = document.createElement("table");
-                
-                removeTable(space); //removes preivious  table
-
-                var tableArea = new Array(Gcolumn); 
-                for(let i; i < Grow; i++){
-                    table[i] = new Array(Grow);
-                }
-                
-
-                for(let i = 0; i < Grow; i++){
-                    var row = document.createElement("tr");
-                    for(let j = 0; j < Gcolumn; j++){
-                        var cell = document.createElement("td");
-                        //cell.innerHTML = j
-                        tablePos.push("["+String(i)+"]"+"["+String(j)+"]");
-                        tableValues.push("0");
-                        cell.setAttribute("id", "["+String(i)+"]"+"["+String(j)+"]");
-                        cell.setAttribute("onclick", "findOpenRow(this.id)");
-                        row.appendChild(cell);
-                    }
-                    table.appendChild(row);
-                }
-                space.appendChild(table);
-                console.log(tableValues);
-                console.log(tablePos);
-            }
-        </script>
+        
     </body>
+    <script src="game_functions.js"></script>
 </html>

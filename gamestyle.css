@@ -1,5 +1,7 @@
 td {
+    background-color: lightblue;
     border: 1px solid black;
+    border-radius: 50px;
     width: 20px;
     height: 20px;
     max-width: 20px;
@@ -7,8 +9,18 @@ td {
 }
 
 table{
+    background-color: blue;
+}
+
+#board{
     border: 1px solid black;
     width: 200px;
+    height: 100px;
+}
+
+#board2{
+    border: 1px solid black;
+    width: 250px;
     height: 100px;
 }
 
@@ -26,4 +38,8 @@ table{
     width: 20px;
     height: 20px;
     border-radius: 50px;
+}
+
+h3{
+    float: right;
 }
