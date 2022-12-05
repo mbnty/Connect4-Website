@@ -4,6 +4,7 @@ require_once "config_gameinfo.php";
 session_start();
 
 $current_user = $_SESSION['username'];
+echo $current_user."<br>";
 
 $conn = new mysqli($servername, $username, $password, $dbname_game);
 
@@ -33,49 +34,38 @@ else{
 if($_SERVER['REQUEST_METHOD'] = 'POST'){
 
     //query to check if user exists in the leaderboard
-    $sql = 'SELECT `login` from leaderboard WHERE `login`=?;';
-    echo $sql;
+    $sql = 'SELECT `login`,`total_games`, `wins`, `time_played`, `turn_count` FROM leaderboard WHERE `login`=?;';
+    echo $sql."<br>";
     if($stmt = mysqli_prepare($conn, $sql)){
-        echo json_encode($stmt)."<br>";
-        // Bind variables to the prepared statement as parameters
+        echo "JSON encoding line 39 SQL: ".json_encode($stmt)."<br>";
+        //bind the current user to the SELECT sql
         mysqli_stmt_bind_param($stmt, "s", $current_user);
         // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            // Store result
-            mysqli_stmt_store_result($stmt);  
-            $var = mysqli_stmt_num_rows($stmt);
-            echo "VAR number is: ".$var;
-            // Check if username exists
-            if($var == 1){
-                $sql = "SELECT * from leaderboard WHERE `login`=".$current_user.";";
-                echo $sql;
-                $result = $conn->query($sql);
-                echo $result;
-                $row = $result->fetch_assoc();
-        
-                //get current info from leaderboard
-                $total_games = $row["total_games"];
-                $wins = $row["wins"];
-                $time_played = $row["time_played"];
-                $turn_count = $row["turn_count"];
-        
+        $check_execute = mysqli_stmt_execute($stmt);
+        echo "myqli_stmt_execute value is: ".$check_execute;
+        if($check_execute == true){
+
+            mysqli_stmt_bind_result($stmt, $temp_user, $total_games, $wins, $time_played, $turn_count);
+            if(mysqli_stmt_fetch($stmt)){
+                
                 //get posted values 
                 $new_tot_games = $_POST['totGames'];
                 $new_wins = $_POST['victories'];
-                $new_time_played = $_POST['playTime'];
+                (int)$new_time_played = $_POST['playTime'];
                 $new_turn_count = $_POST['turns'];
-        
+            
                 //updated info = posted info + curr info
                 $insert_new_total = $new_tot_games + $total_games;
                 $insert_new_wins = $new_wins + $wins;
-                $insert_new_time = $new_time_played + $time_played;
+                $insert_new_time = (int)$new_time_played + (int)$time_played;
                 $insert_new_turn = $new_turn_count + $new_turn_count;
-        
+            
+                mysqli_stmt_free_result($stmt);
                 //update the database
-                $sql = "UPDATE leaderboard SET `total_games`, `wins`, `time_played`, `turn_count`) VALUES (?,?,?,?)";
+                $sql = "UPDATE leaderboard SET `total_games`=?, `wins`=?, `time_played`=?, `turn_count`=? WHERE `login`=?";
                 if($stmt = mysqli_prepare($conn, $sql)){
-                    mysqli_stmt_bind_param($stmt, "iisi", $insert_new_total, $insert_new_wins, $insert_new_time, $insert_new_turn);
-                    
+                    mysqli_stmt_bind_param($stmt, "iiiis", $insert_new_total, $insert_new_wins, $insert_new_time, $insert_new_turn, $current_user);
+
                     if(mysqli_stmt_execute($stmt)){
                         echo "Updating leaderboard is good";
                     }
@@ -97,7 +87,7 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
 
                 if($stmt = mysqli_prepare($conn, $sql)){
                     // Bind variables to the prepared statement as parameters
-                    mysqli_stmt_bind_param($stmt, "siisi", $current_user, $new_tot_games, $new_wins, $new_time_played, $new_turn_count);
+                    mysqli_stmt_bind_param($stmt, "siiii", $current_user, $new_tot_games, $new_wins, $new_time_played, $new_turn_count);
             
                     // Attempt to execute the prepared statement
                     if(mysqli_stmt_execute($stmt)){
@@ -107,9 +97,9 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
                         echo "Inserting new user into leaderboard broke";
                     }
                 }
-                // Close statement
-                mysqli_stmt_close($stmt);
             }
+            mysqli_stmt_free_result($stmt);
+            mysqli_stmt_close($stmt);
         }
     }
 }
