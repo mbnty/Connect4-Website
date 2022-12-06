@@ -8,8 +8,27 @@ td {
     max-height: 20px;
 }
 
-table{
+.tab{
     background-color: blue;
+}
+
+.tab2{
+    background-color: green;
+}
+
+.tab3{
+    background-color: maroon;
+}
+
+.tab4{
+    background-color: black;
+}
+
+#tablebox{
+    border: 2px solid black;
+    background-color: blue;
+    width: 150px;
+    height: 75px;
 }
 
 #board{
@@ -51,6 +70,22 @@ table{
 
 #play2{
     background-color: yellow;
+}
+
+#play3{
+    background-color: green;
+}
+
+#play4{
+    background-color: orange;
+}
+
+#play5{
+    background-color: blue;
+}
+
+#play6{
+    background-color: purple;
 }
 
 h3{
