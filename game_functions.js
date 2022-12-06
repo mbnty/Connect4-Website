@@ -1,7 +1,16 @@
 var Player1Wins = 0;
 
-var Color = ["red", "yellow", "green", "orange", "blue", "purple"];
+var ColorP = ["play", "play2", "play3", "play4", "play5", "play6",];
+var Color = ["red", "yellow", "green", "orange", "blue", "purple",];
 var p1Color = 0;
+var p1ColorID = ColorP[p1Color];
+var p2Color = 1;
+var p2ColorID = ColorP[p2Color];;
+
+var ColorT = ["blue", "green", "maroon", "black"];
+var ColorTID = ["tab", "tab2","tab3", "tab4"];
+var tableColor = 0;
+var tableID = ColorTID[tableColor];
 
 var turnNumber = 0;
 
@@ -30,7 +39,7 @@ var GAMECOL;
 
 var colorSec = document.getElementById("colors");
 var space = document.getElementById("tablespace");
-var button = document.getElementById("buttonSpace");
+var buttonSec = document.getElementById("buttonSpace");
 var player = document.getElementById("currplayer");
 var begtime = document.getElementById("startTime");
 var lasttime = document.getElementById("endTime");
@@ -57,7 +66,7 @@ function reset(){
         clearcolumn(i);
     }
     removeElements(space);
-    removeElements(button);
+    removeElements(buttonSec);
     removeElements(player);
     removeElements(begtime);
     removeElements(lasttime);
@@ -142,14 +151,14 @@ function placePiece(the_id){
     if(currentplayer == 1){
         y = document.createElement("div");
         y.setAttribute("class", "coin");
-        y.setAttribute("id", "play");
+        y.setAttribute("id", p1ColorID);
         y.innerHTML = turnNumber;
         x.appendChild(y);
         currentplayer = 0;
     }else{
         y = document.createElement("div");
         y.setAttribute("class", "coin");
-        y.setAttribute("id", "play2");
+        y.setAttribute("id", p2ColorID);
         y.innerHTML = turnNumber;
         x.appendChild(y);
         currentplayer = 1
@@ -179,6 +188,11 @@ function pickColor(){
 
     var player2ColorButton = document.createElement("div");
     player2ColorButton.setAttribute("id", "coinbox2");
+    player2ColorButton.setAttribute("onclick", "changeColorP2()");
+
+    var tableColorButton = document.createElement("div");
+    tableColorButton.setAttribute("id","tablebox");
+    tableColorButton.setAttribute("onclick", "changeTableColor()");
 
     var okay = document.createElement("button");
     okay.innerHTML = "Okay";
@@ -187,6 +201,7 @@ function pickColor(){
 
     colorSec.appendChild(player1ColorButton);
     colorSec.appendChild(player2ColorButton);
+    colorSec.appendChild(tableColorButton);
     colorSec.appendChild(okay);
 }
 
@@ -196,11 +211,32 @@ function changeColorP1(){
         p1Color = 0;
     }
     document.getElementById("coinbox").style.backgroundColor = Color[p1Color];
-    document.getElementById("play").style.backgroundColor = Color[p1Color];
+    p1ColorID = ColorP[p1Color];
+}
+
+function changeColorP2(){
+    p2Color++;
+    if(p2Color > 6){
+        p2Color = 0;
+    }
+    document.getElementById("coinbox2").style.backgroundColor = Color[p2Color];
+    p2ColorID = ColorP[p2Color];
+}
+
+function changeTableColor(){
+    tableColor++;
+    if(tableColor > 4){
+        tableColor = 0;
+    }
+    document.getElementById("tablebox").style.backgroundColor = ColorT[tableColor];
+    //document.getElementById("board2").style.backgroundColor = ColorT[tableColor];
+    tableID = ColorTID[tableColor];
 }
 
 function pickSize(){
     var place = document.getElementById("buttonSpace");
+
+    removeElements(place);
 
     var buttonSmall = document.createElement("button");
     buttonSmall.innerHTML = "Board Size 6x7"
@@ -255,7 +291,7 @@ function readBoard(){ //use this to find wins
         for(let j = 0; j < GAMECOL; j++){
             let test = document.getElementById("["+i+"]["+j+"]");
             if(test.firstChild != null){
-                if(test.firstChild.classList.contains(player1)){
+                if(String(test.firstChild.id) == p1ColorID){
                     testrow.push(1);
                 }else{
                     testrow.push(2);
@@ -425,7 +461,7 @@ function readcolumn(column){
     for(let i = 0; i < GAMEROWS; i++){
         let currCell = document.getElementById("["+i+"]["+column+"]");
         if(currCell.firstChild != null){
-            if(String(currCell.firstChild.id) == player1){
+            if(String(currCell.firstChild.id) == p1ColorID){
                 columnStats.push(1);
             }
             else{
@@ -471,12 +507,12 @@ function autoplace(column, columnArray){
         if(tempCol[k] == 1){
             let piece = document.createElement("div");
             piece.setAttribute("class","coin");
-            piece.setAttribute("id", "play");
+            piece.setAttribute("id", p1ColorID);
             currCell.appendChild(piece);
         }else if(tempCol[k] == 2){
             let piece = document.createElement("div");
             piece.setAttribute("class","coin");
-            piece.setAttribute("id", "play2");
+            piece.setAttribute("id", p2ColorID);
             currCell.appendChild(piece);
         }
     }
@@ -536,9 +572,10 @@ function makeTable(Grow, Gcolumn){
     }else{
         table.setAttribute("id", "board2");
     }
+    table.setAttribute("class",tableID);
     space.appendChild(table);
-    //console.log(tableValues);
-    //console.log(tablePos);
+    removeElements(colorSec);
+    removeElements(buttonSec);
     resetbutton();
     displayStartTime();
     setplayer();
