@@ -3,6 +3,8 @@ var playerInfo;
 var sorted_leaderboard;
 var httpRequest;
 var value;
+let sortDir = ""; //ASC or DESC
+let sortCol = "";
 var leaderboard_space = document.getElementById("information");
 
 
@@ -42,7 +44,7 @@ function getFromDB() {
     }
 }
 
-function sort_single_column(value) {
+function sort_single_column(sortCol, sortDir) {
     console.log("in sort_single_column");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
@@ -50,38 +52,36 @@ function sort_single_column(value) {
       alert('Cannot create an XMLHTTP instance');
       return false;
     }
-    let choice = "";
-    console.log("value is: "+value);
+    console.log("Column is: "+sortCol);
 
-    if(value > 0){
-        choice = "DESC";
-    }
-    else{
-        choice = "ASC";
-    }
+    console.log("Direction is: "+sortDir);
 
-    console.log("Choice is: "+choice);
+    //form creation
     fd = new FormData();
-    fd.append("order_by", choice);
-    fd.append("order", choice)
+    fd.append("attribute", get_sort_single_col_param(sortCol)); //post the attribute
+    fd.append("direction", sortDir); //post the kind of sort
 
-    httpRequest.onreadystatechange = getFromDB_single; // we assign a function to the property onreadystatechange (callback function)
+    console.log(typeof(get_sort_single_col_param(sortCol)));
+
+    //send form to server side
+    httpRequest.onreadystatechange = getFromDB_single; //call back function
     httpRequest.open('POST','order_by.php');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(fd);
 }
   
-function getFromDB_single() {
+function getFromDB_single() { //callback function for sorting leaderboard
     try {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
           console.log("server status: "+httpRequest.status);
-          console.log("server response: "+httpRequest.responseText);
-              sorted_leaderboard = JSON.parse(httpRequest.responseText);
-              rowCount = sorted_leaderboard.length;
-              console.log("length of player array: "+rowCount);
-              console.log("PLAYER NAME IS: "+sorted_leaderboard[0].Name);
-              updateTable();
+          //console.log("server response: "+httpRequest.responseText);
+          sorted_leaderboard = JSON.parse(httpRequest.responseText);
+          //console.log("henlo");
+          rowCount = sorted_leaderboard.length;
+          console.log("length of player array: "+rowCount);
+          console.log("PLAYER NAME IS: "+sorted_leaderboard[0].Name);
+          updateTable();
         } else {
           alert('There was a problem with the request.');
         }
@@ -130,27 +130,41 @@ function makeTable(){
     leaderboard_space.appendChild(table);
 }
 
+function flip(event){ //sorts clicked column ASC -> DESC -> NEITHER
+  console.log("EVENT: ",event.target.id);
+  let col = event.target.id;
 
-function flip(header_column){
-    //default sort on desc
-    console.log("INSIDE FLIP: " + header_column);
-    let flipflop = header_column * -1; //switch between desc or asc
-        if(flipflop == -1 || flipflop == 1){
-            console.log(flipflop);
-            sort_single_column(flipflop);
-        }
-        if(flipflop == -2 || flipflop == 2){
-            console.log(flipflop);
-            sort_single_column(flipflop);
-        }
-        if(flipflop == -2 || flipflop == 2){
-            console.log(flipflop);
-            sort_single_column(flipflop);
-        }
-        if(flipflop == -2 || flipflop == 2){
-            console.log(flipflop);
-            sort_single_column(flipflop);
-        }
+  if(!sortCol){ //if no column is clicked
+    sortDir = "ASC"; //default ASC
+  }
+  else if(sortCol === col){ //if col is clicked
+    if(sortDir === "ASC"){ //check if already ASC
+      sortDir = "DESC"; //switch to DESC
+    }
+    else{ //sort on neither
+      sortDir = "";
+    }
+  }
+  else if(sortCol !== col){ //if other column is clicked
+    sortDir = "ASC";
+  }
+  sortCol = col;
+  sort_single_column(sortCol, sortDir); //pass to database
+}
+
+//returns what attribute will be sorted
+function get_sort_single_col_param(x){
+  switch (x){
+    case "totGame":
+      return "total_games";
+    case "wins":
+      return "wins";
+    case "timePlayed":
+      return "time_played";
+    case "turnCount":
+      return "turn_count";
+  }
+  console.log("Something went wrong in returning string");
 }
 
 

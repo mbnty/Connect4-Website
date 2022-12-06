@@ -87,6 +87,7 @@ function startTime(){
 
 function endTime(){ //returns end time - start time
     timeEnd = new Date() - timeStart;
+    total_games++;
     return timeEnd; //miliseconds
 }
 
@@ -583,21 +584,19 @@ function makeTable(Grow, Gcolumn){
 }
 
 //variables to send to leaderboard
-var total_games = 1;
-var wins = 0;
+var total_games = 0;
 var time_played = 0;
 var turn_count = 0;
 var xhr;
 
 //sends player info to leaderboard
 function sendToLeaderboard(){
-    wins;
     time_played = parseInt(endTime()); //milliseconds
     turn_count = (turnNumber / 2) + 1; //rounds up
 
     fd = new FormData();
     fd.append("totGames", total_games);
-    fd.append("victories", wins);
+    fd.append("victories", Player1Wins);
     fd.append("playTime", time_played);
     fd.append("turns", turn_count);
 

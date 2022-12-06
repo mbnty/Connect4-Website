@@ -8,10 +8,10 @@
         <table>
             <tr>
                 <th>Name</th>
-                <th onclick="flip(1)">Total Games</th>
-                <th onclick="flip(2)">Wins</th>
-                <th onclick="flip(3)">Time Played</th>
-                <th onclick="flip(4)">Turn Count</th>
+                <th id="totGame" onclick="flip(event)">Total Games</th>
+                <th id="wins" onclick="flip(event)">Wins</th>
+                <th id="timePlayed" onclick="flip(event)">Time Played</th>
+                <th id="turnCount" onclick="flip(event)">Turn Count</th>
             </tr>
             <tr>
                 <table id="leaderboard">
@@ -22,6 +22,6 @@
                 </table>
             </tr>
         </table>
-        <script src="leaderboardscript.js"></script>
+        <script src="leaderboardSCRIPT.js"></script>
     </body>
 </html>
