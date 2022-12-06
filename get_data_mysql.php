@@ -30,5 +30,4 @@ else{
     $bad1=[ 'bad' => 1];
     echo json_encode($bad1);
 }
-
 ?>
