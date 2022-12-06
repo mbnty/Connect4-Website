@@ -1,31 +1,34 @@
 <?php
-require_once "config_gameinfo.php";
+include "playerClass.php";
 
-$conn = new mysqli($servername, $username, $password, $dbname_game);
+$conn = new mysqli("localhost", "root", "", "connect4");
+$i = 0;
+$arr = Array();
 
 if($_SERVER["REQUEST_METHOD"] == 'POST'){
-    //if(isset($_POST['attribute'])){
-        //echo "attribute is set";
-        //if(isset($_POST["direction"])){
-            //echo "both POSTS are good";
-            $att = $_POST['attribute'];
-            echo json_encode($_POST);
-            echo "Attribute is: ".$att;
+    if(isset($_POST['col'])){
+        if(isset($_POST["dir"])){
             
-            //$sql = "SELECT * FROM leaderboard ORDER BY " . $_POST['attribute'] . " " . $_POST['direction'];
+            $sql = "SELECT * FROM leaderboard ORDER BY " . $_POST['col'] . " " . $_POST['dir'];
             
             $result = $conn->query($sql);
-            json_encode($result);
-            echo $result;
-        //}
-        //else{
-            //echo "inner loop bad";
-        //}
-    //}
-    //else{
-        //echo "outer loop bad";
-    //}
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $newPlayer = new Player();
+                    $newPlayer->Name = ($row['login']);
+                    $newPlayer->TotalGames = ($row['total_games']);
+                    $newPlayer->Wins = ($row['wins']);
+                    $newPlayer->TimePlayed = ($row['time_played']);
+                    $newPlayer->TurnCount = ($row['turn_count']);
 
+                    $arr[$i] = $newPlayer;
+                    $i ++;
+                }
+                echo json_encode($arr);
+            }
+        }
+    }
 }
+$conn->close();
 
 ?>

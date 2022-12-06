@@ -28,12 +28,9 @@ function getFromDB() {
         if (httpRequest.status === 200) {
           console.log("server status: "+httpRequest.status);
           console.log("server response: "+httpRequest.responseText);
-              playerInfo = JSON.parse(httpRequest.responseText);
-              rowCount = playerInfo.length;
-              console.log("length of player array: "+rowCount);
-              console.log("PLAYER NAME IS: "+playerInfo[0].Name);
-
-              makeTable();
+          playerInfo = JSON.parse(httpRequest.responseText);
+          rowCount = playerInfo.length;
+          makeTable();
         } else {
           alert('There was a problem with the request.');
         }
@@ -58,15 +55,16 @@ function sort_single_column(sortCol, sortDir) {
 
     //form creation
     fd = new FormData();
-    fd.append("attribute", get_sort_single_col_param(sortCol)); //post the attribute
-    fd.append("direction", sortDir); //post the kind of sort
+    fd.append("col", get_sort_single_col_param(sortCol)); //post the attribute
+    fd.append("dir", sortDir); //post the kind of sort
 
-    console.log(typeof(get_sort_single_col_param(sortCol)));
+    for (var key of fd.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+    }
 
     //send form to server side
     httpRequest.onreadystatechange = getFromDB_single; //call back function
     httpRequest.open('POST','order_by.php');
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(fd);
 }
   
@@ -75,12 +73,8 @@ function getFromDB_single() { //callback function for sorting leaderboard
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
           console.log("server status: "+httpRequest.status);
-          //console.log("server response: "+httpRequest.responseText);
+          console.log("server response: "+httpRequest.responseText);
           sorted_leaderboard = JSON.parse(httpRequest.responseText);
-          //console.log("henlo");
-          rowCount = sorted_leaderboard.length;
-          console.log("length of player array: "+rowCount);
-          console.log("PLAYER NAME IS: "+sorted_leaderboard[0].Name);
           updateTable();
         } else {
           alert('There was a problem with the request.');
@@ -93,7 +87,6 @@ function getFromDB_single() { //callback function for sorting leaderboard
 }
 
 function updateTable(){
-    console.log("I'M IN MAKE TABLE");
     var table = document.getElementById("leaderboard");
 
     table.innerHTML = "";
@@ -112,7 +105,6 @@ function updateTable(){
 }
 
 function makeTable(){
-    console.log("I'M IN MAKE TABLE");
     var table = document.getElementById("leaderboard");
 
     table.innerHTML = "";

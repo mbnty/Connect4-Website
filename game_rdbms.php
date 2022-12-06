@@ -57,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
                 //updated info = posted info + curr info
                 $insert_new_total = $new_tot_games + $total_games;
                 $insert_new_wins = $new_wins + $wins;
-                $insert_new_time = (int)$new_time_played + (int)$time_played;
+                (int)$insert_new_time = (int)$new_time_played + (int)$time_played;
                 $insert_new_turn = $new_turn_count + $new_turn_count;
             
                 mysqli_stmt_free_result($stmt);

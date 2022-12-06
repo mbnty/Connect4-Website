@@ -600,6 +600,11 @@ function sendToLeaderboard(){
     fd.append("playTime", time_played);
     fd.append("turns", turn_count);
 
+    // fd.append("totGames", 25);
+    // fd.append("victories", 20);
+    // fd.append("playTime", 1000);
+    // fd.append("turns", 500);
+
     xhr = new XMLHttpRequest();
     xhr.onreadystatechange = leaderboardDB;
     xhr.open("POST", "game_rdbms.php");
