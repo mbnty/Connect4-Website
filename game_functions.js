@@ -1,5 +1,8 @@
 var Player1Wins = 0;
 
+var Color = ["red", "yellow", "green", "orange", "blue", "purple"];
+var p1Color = 0;
+
 var turnNumber = 0;
 
 var gameDone = false;
@@ -12,8 +15,8 @@ var timeEnd;
 var currentplayer; // player turn Player 1: 1 and Player 2: 0
 var gameStart = false;
 
-var player1 = "coin";
-var player2 = "coin2";
+var player1 = "play";
+var player2 = "play2";
 var player1Power = true;
 var player2Power = true;
 
@@ -25,6 +28,7 @@ var boardinfo = [];
 var GAMEROWS;
 var GAMECOL;
 
+var colorSec = document.getElementById("colors");
 var space = document.getElementById("tablespace");
 var button = document.getElementById("buttonSpace");
 var player = document.getElementById("currplayer");
@@ -64,6 +68,7 @@ function reset(){
     removeElements(power);
     removeElements(pMessage);
     removeElements(rbutton);
+    removeElements(colorSec);
 }
 
 function startTime(){
@@ -137,12 +142,14 @@ function placePiece(the_id){
     if(currentplayer == 1){
         y = document.createElement("div");
         y.setAttribute("class", "coin");
+        y.setAttribute("id", "play");
         y.innerHTML = turnNumber;
         x.appendChild(y);
         currentplayer = 0;
     }else{
         y = document.createElement("div");
-        y.setAttribute("class", "coin2");
+        y.setAttribute("class", "coin");
+        y.setAttribute("id", "play2");
         y.innerHTML = turnNumber;
         x.appendChild(y);
         currentplayer = 1
@@ -163,6 +170,33 @@ function setplayer(){
     }else{
         playerspace.innerHTML = "Go Player 2";
     }
+}
+
+function pickColor(){
+    var player1ColorButton = document.createElement("div");
+    player1ColorButton.setAttribute("id", "coinbox");
+    player1ColorButton.setAttribute("onclick", "changeColorP1()");
+
+    var player2ColorButton = document.createElement("div");
+    player2ColorButton.setAttribute("id", "coinbox2");
+
+    var okay = document.createElement("button");
+    okay.innerHTML = "Okay";
+    okay.setAttribute("onclick", "pickSize()");
+
+
+    colorSec.appendChild(player1ColorButton);
+    colorSec.appendChild(player2ColorButton);
+    colorSec.appendChild(okay);
+}
+
+function changeColorP1(){
+    p1Color++;
+    if(p1Color > 6){
+        p1Color = 0;
+    }
+    document.getElementById("coinbox").style.backgroundColor = Color[p1Color];
+    document.getElementById("play").style.backgroundColor = Color[p1Color];
 }
 
 function pickSize(){
@@ -391,7 +425,7 @@ function readcolumn(column){
     for(let i = 0; i < GAMEROWS; i++){
         let currCell = document.getElementById("["+i+"]["+column+"]");
         if(currCell.firstChild != null){
-            if(currCell.firstChild.classList.contains(player1)== true){
+            if(String(currCell.firstChild.id) == player1){
                 columnStats.push(1);
             }
             else{
@@ -437,10 +471,12 @@ function autoplace(column, columnArray){
         if(tempCol[k] == 1){
             let piece = document.createElement("div");
             piece.setAttribute("class","coin");
+            piece.setAttribute("id", "play");
             currCell.appendChild(piece);
         }else if(tempCol[k] == 2){
             let piece = document.createElement("div");
-            piece.setAttribute("class","coin2");
+            piece.setAttribute("class","coin");
+            piece.setAttribute("id", "play2");
             currCell.appendChild(piece);
         }
     }
