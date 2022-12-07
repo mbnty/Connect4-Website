@@ -18,7 +18,7 @@ if($result->num_rows > 0){
         $newPlayer->Name = ($row["login"]);
         $newPlayer->TotalGames = ($row["total_games"]);
         $newPlayer->Wins = ($row["wins"]);
-        $newPlayer->TimePLayed = ($row["time_played"]);
+        $newPlayer->TimePlayed = ($row["time_played"]);
         $newPlayer->TurnCount = ($row["turn_count"]);
 
         $arr[$i] = $newPlayer;

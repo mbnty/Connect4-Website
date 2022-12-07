@@ -1,4 +1,3 @@
-var rowCount = 0;
 var playerInfo;
 var sorted_leaderboard;
 var httpRequest;
@@ -29,7 +28,6 @@ function getFromDB() {
           console.log("server status: "+httpRequest.status);
           console.log("server response: "+httpRequest.responseText);
           playerInfo = JSON.parse(httpRequest.responseText);
-          rowCount = playerInfo.length;
           makeTable();
         } else {
           alert('There was a problem with the request.');
@@ -86,6 +84,20 @@ function getFromDB_single() { //callback function for sorting leaderboard
     }
 }
 
+function intToTime(totalSeconds){
+  let hours = Math.floor(totalSeconds / 3600);
+  totalSeconds %= 3600;
+  let minutes = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+
+  // If you want strings with leading zeroes:
+  minutes = String(minutes).padStart(2, "0");
+  hours = String(hours).padStart(2, "0");
+  seconds = String(seconds).padStart(2, "0");
+  let timeStr = hours + ":" + minutes + ":" + seconds;
+  return timeStr;
+}
+
 function updateTable(){
     var table = document.getElementById("leaderboard");
 
@@ -95,6 +107,10 @@ function updateTable(){
     for(let item of sorted_leaderboard){
         row = document.createElement("tr");
         for(let field in item){
+          if(field == "TimePlayed"){
+            fancyTime = intToTime(item[field]);
+            item[field] = fancyTime; //override the value to fancy time
+          }
             cell = document.createElement("td");
             cell.innerText = item[field];
             row.appendChild(cell);
@@ -110,12 +126,17 @@ function makeTable(){
     table.innerHTML = "";
     var row;
     var cell;
+    let fancyTime;
     for(let item of playerInfo){
         row = document.createElement("tr");
         for(let field in item){
-            cell = document.createElement("td");
-            cell.innerText = item[field];
-            row.appendChild(cell);
+          if(field == "TimePlayed"){
+            fancyTime = intToTime(item[field]);
+            item[field] = fancyTime; //override the value to fancy time
+          }
+          cell = document.createElement("td");
+          cell.innerText = item[field];
+          row.appendChild(cell);
         }
         table.appendChild(row);
     }
