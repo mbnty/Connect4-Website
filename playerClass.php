@@ -12,7 +12,7 @@ class Player implements JsonSerializable {
         $this->Name = "";
         $this->TotalGames = 0;
         $this->Wins = 0;
-        $this->TimePLayed = 0;
+        $this->TimePlayed = 0;
         $this->TurnCount = 0;
        }
 
@@ -21,7 +21,7 @@ class Player implements JsonSerializable {
             'Name' => $this->Name,
             'TotalGames' => $this->TotalGames,
             'Wins' => $this->Wins,
-            'TimePLayed' => $this->TimePLayed,
+            'TimePlayed' => $this->TimePlayed,
             'TurnCount' => $this->TurnCount,
             ];
     }
