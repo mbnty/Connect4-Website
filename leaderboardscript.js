@@ -6,6 +6,17 @@ let sortDir = ""; //ASC or DESC
 let sortCol = "";
 var leaderboard_space = document.getElementById("information");
 
+function insertDummy(count){ //populates data with dummy data
+  httpRequest = new XMLHttpRequest();
+  if(!httpRequest){
+    alert('Cannot create an XMLHTTP instance');
+    return false;
+  }
+  httpRequest.onreadystatechange = getFromDB;
+  httpRequest.open('GET', 'insert_dummy_data.php');
+  httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  httpRequest.send();
+}
 
 function putIntoPage() {
     console.log("in putIntoPage");
@@ -180,5 +191,5 @@ function get_sort_single_col_param(x){
   console.log("Something went wrong in returning string");
 }
 
-
+insertDummy();
 putIntoPage();
