@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] = 'POST'){
     $sql = 'SELECT `login`,`total_games`, `wins`, `time_played`, `turn_count` FROM leaderboard WHERE `login`=?;';
     echo $sql."<br>";
     if($stmt = mysqli_prepare($conn, $sql)){
-        echo "JSON encoding line 39 SQL: ".json_encode($stmt)."<br>";
+
         //bind the current user to the SELECT sql
         mysqli_stmt_bind_param($stmt, "s", $current_user);
         // Attempt to execute the prepared statement
