@@ -34,6 +34,6 @@ if($result->num_rows == 0){
     $conn->query($dum4);
 }
 else{
-    echo "Error creating table: " . $conn->error ."<br>";
+    echo "Error dummy data already exists in database: " . $conn->error ."<br>";
 }
 ?>
