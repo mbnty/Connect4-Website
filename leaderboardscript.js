@@ -6,7 +6,7 @@ let sortDir = ""; //ASC or DESC
 let sortCol = "";
 var leaderboard_space = document.getElementById("information");
 
-function insertDummy(count){ //populates data with dummy data
+function insertDummy(){ //populates data with dummy data
   httpRequest = new XMLHttpRequest();
   if(!httpRequest){
     alert('Cannot create an XMLHTTP instance');
