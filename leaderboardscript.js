@@ -129,12 +129,15 @@ function updateTable(){
         table.appendChild(row);
     }
     leaderboard_space.appendChild(table);
+
+    insertfirstRow();
 }
 
 function makeTable(){
     var table = document.getElementById("leaderboard");
 
     table.innerHTML = "";
+
     var row;
     var cell;
     let fancyTime;
@@ -189,6 +192,31 @@ function get_sort_single_col_param(x){
       return "turn_count";
   }
   console.log("Something went wrong in returning string");
+}
+
+function insertfirstRow(){
+    var table = document.getElementById("leaderboard");
+
+    var Frow = document.createElement("tr");
+
+    var Ncell = document.createElement("th");
+    Ncell.innerHTML = "Name";
+
+    var TGcell = document.createElement("th");
+    TGcell.setAttribute("id", "totGame");
+    TGcell.setAttribute("onclick", "flip(event)");
+    TGcell.innerHTML = "Total Games";
+    
+    var Wcell = document.createElement("th");
+    Wcell = setAttribute("id", "wins");
+    Wcell.setAttribute("onclick", "flip(event)");
+    Wcell.innerHTML = "Wins";
+
+
+    Frow.appendChild(Ncell);
+    Frow.appendChild(TGcell);
+    Frow.appendChild(Wcell);
+    table.insertBefore(Frow, table.firstChild);
 }
 
 insertDummy();
