@@ -1,4 +1,10 @@
 var Player1Wins = 0;
+var player1TurnCount = 0;
+var player2TurnCount = 0;
+var time_played;
+var total_games;
+
+var xhr;
 
 var ColorP = ["play", "play2", "play3", "play4", "play5", "play6",];
 var Color = ["red", "yellow", "green", "orange", "blue", "purple",];
@@ -149,6 +155,7 @@ function placePiece(the_id){
     turnNumber++;
 
     if(currentplayer == 1){
+        player1TurnCount++;
         y = document.createElement("div");
         y.setAttribute("class", "coin");
         y.setAttribute("id", p1ColorID);
@@ -156,6 +163,7 @@ function placePiece(the_id){
         x.appendChild(y);
         currentplayer = 0;
     }else{
+        player2TurnCount++;
         y = document.createElement("div");
         y.setAttribute("class", "coin");
         y.setAttribute("id", p2ColorID);
@@ -363,18 +371,24 @@ function findWin(player){
         }
     }
     displayConnections4(OneWins,TwoWins);
+
     if(OneWins > 0){
-        /*
-        PLAYER 1 INFO UPDATED TO SERVER SIDE
-        */
+        total_games = 1;
         Player1Wins++;
+        time_played = (parseInt(endTime()))/1000; //seconds
+        console.log(player1TurnCount);
+        sendToLeaderboard(total_games, Player1Wins, time_played, player1TurnCount);
         displayEndTime();
         /*
         GAME WINNER WINDOW WITH OK BUTTON HERE
         PRESSING OK RESET PAGE
         */
     }else if (TwoWins > 0){
-        //NOTHING DATA WISE HAPPENS
+        total_games = 1;
+        Player1Wins = 0;
+        time_played = (parseInt(endTime()))/1000; //seconds
+        player1TurnCount;
+        sendToLeaderboard(total_games, Player1Wins, time_played, player1TurnCount);
         displayEndTime();
         /*
         SAME AS PLAYER 1 AFTER TIME ENDS DISPLAY
@@ -592,46 +606,16 @@ function makeTable(Grow, Gcolumn){
     makepowerups();
 }
 
-//variables to send to leaderboard
-var total_games = 0;
-var time_played = 0;
-var turn_count = 0;
-var xhr;
-
-//if player 1 wins update the leaderboard
-function sendToLeaderboard(){
-    time_played = parseInt(endTime()); //milliseconds
-    turn_count = (turnNumber / 2) + 1; //rounds up
+//update leaderboard information
+function sendToLeaderboard(total_games, Player1Wins, time_played, player1TurnCount){
 
     fd = new FormData();
     fd.append("totGames", total_games);
     fd.append("victories", Player1Wins);
     fd.append("playTime", time_played);
-    fd.append("turns", turn_count);
-
-    // fd.append("totGames", 25);
-    // fd.append("victories", 20);
-    // fd.append("playTime", 1000);
-    // fd.append("turns", 500);
+    fd.append("turns", player1TurnCount);
 
     xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = leaderboardDB;
     xhr.open("POST", "game_rdbms.php");
-    xhr.send(fd)//send the get
-}
-
-function leaderboardDB() {
-    try {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          console.log("server status: "+xhr.status);
-          console.log("server response: "+xhr.responseText);
-        } else {
-          alert('There was a problem with the request.');
-        }
-      }
-    }
-    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
-      alert('Caught Exception: ' + e.description);
-    }
+    xhr.send(fd)//send the form
 }

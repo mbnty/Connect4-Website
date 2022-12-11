@@ -18,14 +18,13 @@ function insertDummy(){ //populates data with dummy data
 }
 
 function putIntoPage() {
-    console.log("in putIntoPage");
+    // console.log("in putIntoPage");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
-      // issues with the browser, example: old browser
       alert('Cannot create an XMLHTTP instance');
       return false;
     }
-    httpRequest.onreadystatechange = getFromDB; // we assign a function to the property onreadystatechange (callback function)
+    httpRequest.onreadystatechange = getFromDB;
     httpRequest.open('GET','get_data_mysql.php');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(); // GET = send with no parameter !
@@ -35,8 +34,8 @@ function getFromDB() {
     try {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-          console.log("server status: "+httpRequest.status);
-          console.log("server response: "+httpRequest.responseText);
+          // console.log("server status: "+httpRequest.status);
+          // console.log("server response: "+httpRequest.responseText);
           playerInfo = JSON.parse(httpRequest.responseText);
           makeTable();
         } else {
@@ -44,13 +43,13 @@ function getFromDB() {
         }
       }
     }
-    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
+    catch( e ) { 
       console.log('Caught Exception: ', e);
     }
 }
 
 function sort_single_column(sortCol, sortDir) {
-    console.log("in sort_single_column");
+    // console.log("in sort_single_column");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
       // issues with the browser, example: old browser
@@ -80,8 +79,8 @@ function getFromDB_single() { //callback function for sorting leaderboard
     try {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-          console.log("server status: "+httpRequest.status);
-          console.log("server response: "+httpRequest.responseText);
+          // console.log("server status: "+httpRequest.status);
+          // console.log("server response: "+httpRequest.responseText);
           playerInfo = JSON.parse(httpRequest.responseText);
           makeTable();
           showDir(sortCol, sortDir);
@@ -90,12 +89,12 @@ function getFromDB_single() { //callback function for sorting leaderboard
         }
       }
     }
-    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
+    catch( e ) { 
       console.log('Caught Exception: ' + e.description);
     }
 }
 
-function intToTime(totalSeconds){
+function intToTime(totalSeconds){ //converts seconds to string
   let hours = Math.floor(totalSeconds / 3600);
   totalSeconds %= 3600;
   let minutes = Math.floor(totalSeconds / 60);
@@ -131,8 +130,8 @@ function makeTable(){
     }
 }
 
-function flip(event){ //sorts clicked column ASC -> DESC -> NEITHER
-  console.log("EVENT: ",event.target.id);
+function flip(event){ //sorts clicked column ASC -> DESC -> DEFAULT
+  //console.log("EVENT: ",event.target.id);
   let col = event.target.id;
 
   if(!sortCol || !sortDir){ //if no column is clicked
