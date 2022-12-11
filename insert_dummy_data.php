@@ -18,19 +18,19 @@ $result = $conn->query($sql);
 if($result->num_rows == 0){
     //if table is empty, populate with dummy data
     $dum1 = 'INSERT INTO `leaderboard`(`login`, `total_games`, `wins`, `time_played`, `turn_count`) VALUES 
-    ("dummy1", 5, 4, 50000, 25)';
+    ("dummy1", 869, 5, 20000, 10000)'; //max total games
     $conn->query($dum1);
 
     $dum2 = 'INSERT INTO `leaderboard`(`login`, `total_games`, `wins`, `time_played`, `turn_count`) VALUES 
-    ("dummy2", 6, 7, 50001, 26)';
+    ("dummy2", 758, 645, 20426, 12736)'; //max wins
     $conn->query($dum2);
 
     $dum3 = 'INSERT INTO `leaderboard`(`login`, `total_games`, `wins`, `time_played`, `turn_count`) VALUES 
-    ("dummy3", 15, 14, 50100, 128)';
+    ("dummy3", 25, 10, 69000, 500)'; //max time played
     $conn->query($dum3);
 
     $dum4 = 'INSERT INTO `leaderboard`(`login`, `total_games`, `wins`, `time_played`, `turn_count`) VALUES 
-    ("dummy4", 25, 24, 56789, 259)';
+    ("dummy4", 416, 0, 34584, 17473)'; //max turn count
     $conn->query($dum4);
 }
 else{

@@ -9,7 +9,7 @@ if($_SERVER["REQUEST_METHOD"] == 'POST'){
     if(isset($_POST['col'])){
         if(isset($_POST["dir"])){
             
-            $sql = "SELECT * FROM leaderboard ORDER BY " . $_POST['col'] . " " . $_POST['dir'];
+            $sql = $_POST['dir'] != "" ? "SELECT * FROM leaderboard ORDER BY " . $_POST['col'] . " " . $_POST['dir'] : "SELECT * FROM leaderboard";
             
             $result = $conn->query($sql);
             if($result->num_rows > 0){

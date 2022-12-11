@@ -1,10 +1,9 @@
 var playerInfo;
-var sorted_leaderboard;
 var httpRequest;
 var value;
 let sortDir = ""; //ASC or DESC
 let sortCol = "";
-var leaderboard_space = document.getElementById("information");
+var leaderboard_space = document.getElementById("append-here");
 
 function insertDummy(){ //populates data with dummy data
   httpRequest = new XMLHttpRequest();
@@ -46,7 +45,7 @@ function getFromDB() {
       }
     }
     catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
-      alert('Caught Exception: ' + e.description);
+      console.log('Caught Exception: ', e);
     }
 }
 
@@ -83,15 +82,16 @@ function getFromDB_single() { //callback function for sorting leaderboard
         if (httpRequest.status === 200) {
           console.log("server status: "+httpRequest.status);
           console.log("server response: "+httpRequest.responseText);
-          sorted_leaderboard = JSON.parse(httpRequest.responseText);
-          updateTable();
+          playerInfo = JSON.parse(httpRequest.responseText);
+          makeTable();
+          showDir(sortCol, sortDir);
         } else {
           alert('There was a problem with the request.');
         }
       }
     }
     catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
-      alert('Caught Exception: ' + e.description);
+      console.log('Caught Exception: ' + e.description);
     }
 }
 
@@ -109,66 +109,40 @@ function intToTime(totalSeconds){
   return timeStr;
 }
 
-function updateTable(){
-    var table = document.getElementById("leaderboard");
-
-    table.innerHTML = "";
-    var row;
-    var cell;
-    for(let item of sorted_leaderboard){
-        row = document.createElement("tr");
-        for(let field in item){
-          if(field == "TimePlayed"){
-            fancyTime = intToTime(item[field]);
-            item[field] = fancyTime; //override the value to fancy time
-          }
-            cell = document.createElement("td");
-            cell.innerText = item[field];
-            row.appendChild(cell);
-        }
-        table.appendChild(row);
-    }
-    leaderboard_space.appendChild(table);
-
-    insertfirstRow();
-}
-
 function makeTable(){
-    var table = document.getElementById("leaderboard");
+    var tableBody = document.getElementById("append-here");
 
-    table.innerHTML = "";
-
-    var row;
-    var cell;
+    tableBody.innerHTML = "";
+    var tr;
+    var td;
     let fancyTime;
     for(let item of playerInfo){
-        row = document.createElement("tr");
+        tr = document.createElement("tr");
         for(let field in item){
           if(field == "TimePlayed"){
             fancyTime = intToTime(item[field]);
             item[field] = fancyTime; //override the value to fancy time
           }
-          cell = document.createElement("td");
-          cell.innerText = item[field];
-          row.appendChild(cell);
+          td = document.createElement("td");
+          td.innerText = item[field];
+          tr.appendChild(td);
         }
-        table.appendChild(row);
+        tableBody.appendChild(tr);
     }
-    leaderboard_space.appendChild(table);
 }
 
 function flip(event){ //sorts clicked column ASC -> DESC -> NEITHER
   console.log("EVENT: ",event.target.id);
   let col = event.target.id;
 
-  if(!sortCol){ //if no column is clicked
+  if(!sortCol || !sortDir){ //if no column is clicked
     sortDir = "ASC"; //default ASC
   }
   else if(sortCol === col){ //if col is clicked
     if(sortDir === "ASC"){ //check if already ASC
       sortDir = "DESC"; //switch to DESC
     }
-    else{ //sort on neither
+    else if(sortDir === "DESC"){ //sort on neither
       sortDir = "";
     }
   }
@@ -194,29 +168,19 @@ function get_sort_single_col_param(x){
   console.log("Something went wrong in returning string");
 }
 
-function insertfirstRow(){
-    var table = document.getElementById("leaderboard");
+function showDir(sortCol,sortDir){ //adds arrow to column
+  let orig = document.getElementById(sortCol);
+  let symbol = orig.innerHTML.slice(-1);
+  let str = "";
+  let newSym = sortDir == 'ASC' ? '\u2193' : sortDir == 'DESC' ? '\u2191' : "";
+  if(symbol == '\u2193' || symbol == '\u2191'){ //ASC or DESC
+    str = orig.innerHTML.slice(0,-1) + newSym;
+  }
+  else{
+    str = orig.innerHTML + " " + newSym;
+  }
 
-    var Frow = document.createElement("tr");
-
-    var Ncell = document.createElement("th");
-    Ncell.innerHTML = "Name";
-
-    var TGcell = document.createElement("th");
-    TGcell.setAttribute("id", "totGame");
-    TGcell.setAttribute("onclick", "flip(event)");
-    TGcell.innerHTML = "Total Games";
-    
-    var Wcell = document.createElement("th");
-    Wcell = setAttribute("id", "wins");
-    Wcell.setAttribute("onclick", "flip(event)");
-    Wcell.innerHTML = "Wins";
-
-
-    Frow.appendChild(Ncell);
-    Frow.appendChild(TGcell);
-    Frow.appendChild(Wcell);
-    table.insertBefore(Frow, table.firstChild);
+  orig.innerHTML = str;
 }
 
 insertDummy();

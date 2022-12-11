@@ -1,7 +1,17 @@
-.leaderboard{
+#leaderboard{
+    border-collapse: collapse;
     border: 2px solid black;
 }
 
-td{
+th,td{
     border: 2px solid black;
+    padding: 5px;
+}
+
+th{
+    background-color: lightblue;
+}
+
+tr:nth-child(even) td{
+    background-color: gainsboro;
 }
