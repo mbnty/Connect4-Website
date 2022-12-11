@@ -21,11 +21,10 @@ function putIntoPage() {
     // console.log("in putIntoPage");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
-      // issues with the browser, example: old browser
       alert('Cannot create an XMLHTTP instance');
       return false;
     }
-    httpRequest.onreadystatechange = getFromDB; // we assign a function to the property onreadystatechange (callback function)
+    httpRequest.onreadystatechange = getFromDB;
     httpRequest.open('GET','get_data_mysql.php');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(); // GET = send with no parameter !
@@ -44,7 +43,7 @@ function getFromDB() {
         }
       }
     }
-    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
+    catch( e ) { 
       console.log('Caught Exception: ', e);
     }
 }
@@ -90,12 +89,12 @@ function getFromDB_single() { //callback function for sorting leaderboard
         }
       }
     }
-    catch( e ) { // Always deal with what can happen badly, client-server applications --> there is always something that can go wrong on one end of the connection
+    catch( e ) { 
       console.log('Caught Exception: ' + e.description);
     }
 }
 
-function intToTime(totalSeconds){
+function intToTime(totalSeconds){ //converts seconds to string
   let hours = Math.floor(totalSeconds / 3600);
   totalSeconds %= 3600;
   let minutes = Math.floor(totalSeconds / 60);
@@ -131,7 +130,7 @@ function makeTable(){
     }
 }
 
-function flip(event){ //sorts clicked column ASC -> DESC -> NEITHER
+function flip(event){ //sorts clicked column ASC -> DESC -> DEFAULT
   //console.log("EVENT: ",event.target.id);
   let col = event.target.id;
 
