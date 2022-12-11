@@ -18,7 +18,7 @@ function insertDummy(){ //populates data with dummy data
 }
 
 function putIntoPage() {
-    console.log("in putIntoPage");
+    // console.log("in putIntoPage");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
       // issues with the browser, example: old browser
@@ -35,8 +35,8 @@ function getFromDB() {
     try {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-          console.log("server status: "+httpRequest.status);
-          console.log("server response: "+httpRequest.responseText);
+          // console.log("server status: "+httpRequest.status);
+          // console.log("server response: "+httpRequest.responseText);
           playerInfo = JSON.parse(httpRequest.responseText);
           makeTable();
         } else {
@@ -50,7 +50,7 @@ function getFromDB() {
 }
 
 function sort_single_column(sortCol, sortDir) {
-    console.log("in sort_single_column");
+    // console.log("in sort_single_column");
     httpRequest = new XMLHttpRequest(); // create the object
     if (!httpRequest) { // check if the object was properly created
       // issues with the browser, example: old browser
@@ -80,8 +80,8 @@ function getFromDB_single() { //callback function for sorting leaderboard
     try {
       if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-          console.log("server status: "+httpRequest.status);
-          console.log("server response: "+httpRequest.responseText);
+          // console.log("server status: "+httpRequest.status);
+          // console.log("server response: "+httpRequest.responseText);
           playerInfo = JSON.parse(httpRequest.responseText);
           makeTable();
           showDir(sortCol, sortDir);
@@ -132,7 +132,7 @@ function makeTable(){
 }
 
 function flip(event){ //sorts clicked column ASC -> DESC -> NEITHER
-  console.log("EVENT: ",event.target.id);
+  //console.log("EVENT: ",event.target.id);
   let col = event.target.id;
 
   if(!sortCol || !sortDir){ //if no column is clicked
