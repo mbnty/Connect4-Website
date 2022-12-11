@@ -365,11 +365,21 @@ function findWin(player){
     }
     displayConnections4(OneWins,TwoWins);
     if(OneWins > 0){
+        /*
+        PLAYER 1 INFO UPDATED TO SERVER SIDE
+        */
         Player1Wins++;
         displayEndTime();
+        /*
+        GAME WINNER WINDOW WITH OK BUTTON HERE
+        PRESSING OK RESET PAGE
+        */
     }else if (TwoWins > 0){
+        //NOTHING DATA WISE HAPPENS
         displayEndTime();
-        
+        /*
+        SAME AS PLAYER 1 AFTER TIME ENDS DISPLAY
+        */   
     }
 }
 
