@@ -1,0 +1,18 @@
+Work Log:
+Week Oct 16 - Oct 22: 
+    Marc) made html files
+    
+Week Oct 23 - Oct 29: 
+    Marc) [game.html] page structure made, [game_functions.js] dynamic table made on button press
+
+Week Oct 30 - Nov 5: 
+    Marc) [gamestyle.css] Player piece created and table look designed, [game_functions.js] Placing piece function made
+    Carlo) [login.html] made and structured
+
+Week Nov 13 - Nov 19: 
+    Marc) [game_functions] Player 2 and Player Tracking made. Wins can find found (Except negative diagnol) 
+    Carlo) [login_mysql.php] Login page made and functional
+
+Week Nov 20 - No 26: 
+    Marc) General game bug fixes, negative slope found, game info display(New buttons, winner, quit button), Power up skil started(bugged) 
+    Carlo) [playerClass.php] player class for transfer info from client side to server side and back.
