@@ -87,7 +87,6 @@ function startTime(){
 
 function endTime(){ //returns end time - start time
     timeEnd = new Date() - timeStart;
-    total_games++;
     return timeEnd; //miliseconds
 }
 
@@ -589,7 +588,7 @@ var time_played = 0;
 var turn_count = 0;
 var xhr;
 
-//sends player info to leaderboard
+//if player 1 wins update the leaderboard
 function sendToLeaderboard(){
     time_played = parseInt(endTime()); //milliseconds
     turn_count = (turnNumber / 2) + 1; //rounds up
