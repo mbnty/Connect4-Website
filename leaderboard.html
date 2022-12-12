@@ -4,22 +4,25 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="leaderboardStyle.css">
     </head>
-    <body>
-        <button id="quit"><a href="index2.html">Back to Main Menu </a></button> 
-        <section></section>
-        <table id="leaderboard">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th id="totGame" onclick="flip(event)">Total Games</th>
-                    <th id="wins" onclick="flip(event)">Wins</th>
-                    <th id="timePlayed" onclick="flip(event)">Time Played</th>
-                    <th id="turnCount" onclick="flip(event)">Turn Count</th>
-                </tr>
-            </thead>
-            <tbody id="append-here">
-            </tbody>    
-        </table>
+    <body> 
+        <div class="flex-container">
+            <h1 class="page-title" id="title-title">Leaderboard</h1>
+            <h3 class="page-title" id="subtitle">一番になれる誰ですか？</h3>
+            <button id="quit"><a href="index2.html">Back to Main Menu </a></button>
+            <table id="leaderboard">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="sort-columns" id="totGame" onclick="flip(event)">Total Games</th>
+                        <th class="sort-columns" id="wins" onclick="flip(event)">Wins</th>
+                        <th class="sort-columns" id="timePlayed" onclick="flip(event)">Time Played</th>
+                        <th class="sort-columns" id="turnCount" onclick="flip(event)">Turn Count</th>
+                    </tr>
+                </thead>
+                <tbody id="append-here">
+                </tbody>    
+            </table>
+        </div>
         <script src="leaderboardscript.js"></script>
     </body>
 </html>

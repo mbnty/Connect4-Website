@@ -1,17 +1,57 @@
 #leaderboard{
     border-collapse: collapse;
     border: 2px solid black;
+    margin: auto;
+    background-color: white;
+}
+#quit{
+    margin-top: 2%;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-title{
+    color: cyan;
+    font-size: 690%;
+}
+
+#title-title{
+    margin-bottom: 0px;
+}
+
+#subtitle{
+    margin-top: 0px;
+    color: goldenrod;
+    font-size: 200%;
 }
 
 th,td{
     border: 2px solid black;
-    padding: 5px;
+    padding: 8px;
 }
 
 th{
     background-color: lightblue;
+    font-weight: bold;
 }
 
 tr:nth-child(even) td{
     background-color: gainsboro;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sort-columns:hover{
+    background-color: burlywood;
+    cursor: pointer;
+}
+
+body{
+    background-color: purple;
 }
