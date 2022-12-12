@@ -11,8 +11,21 @@ Week Oct 30 - Nov 5:
 
 Week Nov 13 - Nov 19: 
     Marc) [game_functions] Player 2 and Player Tracking made. Wins can find found (Except negative diagnol) 
-    Carlo) [login_mysql.php] Login page made and functional
+    Carlo) [register_mysql.php] Register account page make and adds to database properly
+        [logout_mysql.php] log out page created, also destroys the current session 
 
-Week Nov 20 - No 26: 
+Week Nov 20 - Nov 26: 
     Marc) General game bug fixes, negative slope found, game info display(New buttons, winner, quit button), Power up skil started(bugged) 
-    Carlo) [playerClass.php] player class for transfer info from client side to server side and back.
+    Carlo) [login_mysql.php] Login page made and functional, 
+        [config_user.php] and [config_gameinfo.php] files created to do database testing.
+
+Week Nov 27 - Dec 3:
+    Marc)
+    Carlo) [playerClass.php] player class for transferring info from client side to and from the server. Sessions are created on successful login,
+        [game_rdbms.php], [leaderboardscript.js], and [get_data_mysql.php] created to send player information to and from the server. 
+        Through sessions and [display_username.js] and [check_connection.php] got the username of the logged in account to display accross different pages.
+
+Week Dec 4 - 10: 
+    Marc)
+    Carlo) [order_by.php] created to sort the contents of the leaderboard, [insert_dummy_data.php] file created to populate
+        the leaderboard with example data for testing and presenting. Added .css files to make the project look pretty.

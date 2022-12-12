@@ -11,6 +11,10 @@ header h2{
     margin: auto;
 }
 
+#user_game_page{
+    color: goldenrod;
+}
+
 td {
     background-color: lightblue;
     border: 1px solid black;
