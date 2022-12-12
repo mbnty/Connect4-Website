@@ -121,7 +121,7 @@ function displayEndTime(){
     timeSpace = document.getElementById("endTime");
     removeElements(timeSpace);
     var time = document.createElement("div");
-    time.innerHTML = "Game Ended in " + (endTime()/60) + "seconds";
+    time.innerHTML = "Game Ended in " + (endTime()/1000) + "seconds";
     time.setAttribute("id", "ET");
     timeSpace.appendChild(time);
 }
