@@ -6,34 +6,42 @@
         <link rel="stylesheet" href="gamestyle.css">
         <script src="display_username.js"></script>
     </head>
-    <header>
-        <h3 id="user_game_page"></h3>
-        <button><a href="index2.html"> Quit </a></button> 
-    </header>
+    
     <body>
-        <button onclick="pickColor()">Start</button>
+        <header>
+            <h3 id="user_game_page"></h3>
+            <h2>Connect 4</h2>
+            <button id="quit"><a href="index2.html">Back to Main Menu </a></button> 
+        </header><br><br>
+        <section id="GArea">
+            <button onclick="pickColor()">Start</button>
 
-        <section id="colors"></section>
+            <section id="colors"></section>
 
-        <section id="buttonSpace"></section>
-        <section id="currplayer"></section>
-        <section id="startTime"></section>
-        <section id="endTime"></section>
-        <section id="tablespace"></section>
+            <section id="buttonSpace"></section>
 
-        <section id="player1Stats"></section>
-        <section id="player1Stats4"></section>
+            <section id="PlayerInfo">
+                <div id="startTime"></div>
+                <div id="endTime"></div>
+                <div id="currplayer"></div>
+                <div id="powerups"></div>
+                <p id="powerMessage"></p>
+                <section id="restart"></section>
+            </section>
 
-        <section id="player2Stats"></section>
-        <section id="player2Stats4"></section>
+            <section id="PlayerConnect">
+                <section id="PlayerConnectText">
+                    <div id="player1Stats"></div>
+                    <div id="player1Stats4"></div>
+                    <div id="player2Stats"></div>
+                    <div id="player2Stats4"></div>
+                </section>
+            </section>
 
-        <section id="powerups"></section>
-        <p id="powerMessage"></p>
-
-        <section id="restart"></section>
+            <section id="tablespace"></section>
         
-        <section id="winnerMessage">
-            
+            <section id="winnerMessage"></section>
+
         </section>
     </body>
     <script src="game_functions.js"></script>

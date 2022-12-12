@@ -64,7 +64,7 @@ function reset(){
     typeboard = 7;
     timeStart = new Date();
     timeEnd = 0;
-    gameStart = true;
+    gameStart = false;
     currentplayer = Math.random() % 2;
     player1Power = true;
     player2Power = true;
@@ -109,8 +109,9 @@ function checkColumn(the_id){
 function displayStartTime(){
     timeSpace = document.getElementById("startTime");
     removeElements(timeSpace);
-    var time = document.createElement("div");
+    var time = document.createElement("p");
     time.innerHTML = "Game Started: " + startTime();
+    time.setAttribute("id", "ST");
     timeSpace.appendChild(time);
 }
 
@@ -119,6 +120,7 @@ function displayEndTime(){
     removeElements(timeSpace);
     var time = document.createElement("div");
     time.innerHTML = "Game Ended in " + (endTime()/60) + "seconds";
+    time.setAttribute("id", "ET");
     timeSpace.appendChild(time);
 }
 
@@ -190,17 +192,24 @@ function setplayer(){
 }
 
 function pickColor(){
+    if(gameStart == true){
+        return;
+    }else{
+
     var player1ColorButton = document.createElement("div");
     player1ColorButton.setAttribute("id", "coinbox");
     player1ColorButton.setAttribute("onclick", "changeColorP1()");
+    player1ColorButton.innerHTML = "Player 1 Color";
 
     var player2ColorButton = document.createElement("div");
     player2ColorButton.setAttribute("id", "coinbox2");
     player2ColorButton.setAttribute("onclick", "changeColorP2()");
+    player2ColorButton.innerHTML = "Player 2 Color";
 
     var tableColorButton = document.createElement("div");
     tableColorButton.setAttribute("id","tablebox");
     tableColorButton.setAttribute("onclick", "changeTableColor()");
+    tableColorButton.innerHTML = "Table Color";
 
     var okay = document.createElement("button");
     okay.innerHTML = "Okay";
@@ -211,6 +220,7 @@ function pickColor(){
     colorSec.appendChild(player2ColorButton);
     colorSec.appendChild(tableColorButton);
     colorSec.appendChild(okay);
+    }
 }
 
 function changeColorP1(){
@@ -284,11 +294,13 @@ function makepowerups(){
     var p1button = document.createElement("button");
     p1button.innerHTML = "Player 1: Flip Board";
     p1button.setAttribute("onclick","UsePowerUp(1)")
+    p1button.setAttribute("id", "P1PB");
     powerSpace.appendChild(p1button);
 
     var p2button = document.createElement("button");
     p2button.innerHTML = "Player 2: Flip Board";
     p2button.setAttribute("onclick","UsePowerUp(0)")
+    p2button.setAttribute("id", "P2PB");
     powerSpace.appendChild(p2button);  
 }
 
