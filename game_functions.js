@@ -199,17 +199,26 @@ function pickColor(){
     var player1ColorButton = document.createElement("div");
     player1ColorButton.setAttribute("id", "coinbox");
     player1ColorButton.setAttribute("onclick", "changeColorP1()");
-    player1ColorButton.innerHTML = "Player 1 Color";
+    var player1BT = document.createElement("p");
+    player1BT.setAttribute("id","Player1ColorText");
+    player1BT.innerHTML = "Player 1 Color";
+    player1ColorButton.appendChild(player1BT);
 
     var player2ColorButton = document.createElement("div");
     player2ColorButton.setAttribute("id", "coinbox2");
     player2ColorButton.setAttribute("onclick", "changeColorP2()");
-    player2ColorButton.innerHTML = "Player 2 Color";
+    var player2BT = document.createElement("p");
+    player2BT.setAttribute("id","Player2ColorText");
+    player2BT.innerHTML = "Player 2 Color";
+    player2ColorButton.appendChild(player2BT);
 
     var tableColorButton = document.createElement("div");
     tableColorButton.setAttribute("id","tablebox");
     tableColorButton.setAttribute("onclick", "changeTableColor()");
-    tableColorButton.innerHTML = "Table Color";
+    var tableBT = document.createElement("p");
+    tableBT.setAttribute("id","TableColorText");
+    tableBT.innerHTML = "Table Color";
+    tableColorButton.appendChild(tableBT);
 
     var okay = document.createElement("button");
     okay.innerHTML = "Okay";
