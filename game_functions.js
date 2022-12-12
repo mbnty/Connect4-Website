@@ -53,6 +53,7 @@ var play1Stat = document.getElementById("player1Stats");
 var play1Stat4 = document.getElementById("player1Stats4");
 var play2Stat = document.getElementById("player2Stats");
 var play2Stat4 = document.getElementById("player2Stats4");
+var winnerSpace = document.getElementById("winnerMessage");
 
 var power = document.getElementById("powerups");
 var pMessage = document.getElementById("powerMessage");
@@ -84,6 +85,7 @@ function reset(){
     removeElements(pMessage);
     removeElements(rbutton);
     removeElements(colorSec);
+    removeElements(winnerSpace);
 }
 
 function startTime(){
@@ -199,17 +201,26 @@ function pickColor(){
     var player1ColorButton = document.createElement("div");
     player1ColorButton.setAttribute("id", "coinbox");
     player1ColorButton.setAttribute("onclick", "changeColorP1()");
-    player1ColorButton.innerHTML = "Player 1 Color";
+    var player1BT = document.createElement("p");
+    player1BT.setAttribute("id","Player1ColorText");
+    player1BT.innerHTML = "Player 1 Color";
+    player1ColorButton.appendChild(player1BT);
 
     var player2ColorButton = document.createElement("div");
     player2ColorButton.setAttribute("id", "coinbox2");
     player2ColorButton.setAttribute("onclick", "changeColorP2()");
-    player2ColorButton.innerHTML = "Player 2 Color";
+    var player2BT = document.createElement("p");
+    player2BT.setAttribute("id","Player2ColorText");
+    player2BT.innerHTML = "Player 2 Color";
+    player2ColorButton.appendChild(player2BT);
 
     var tableColorButton = document.createElement("div");
     tableColorButton.setAttribute("id","tablebox");
     tableColorButton.setAttribute("onclick", "changeTableColor()");
-    tableColorButton.innerHTML = "Table Color";
+    var tableBT = document.createElement("p");
+    tableBT.setAttribute("id","TableColorText");
+    tableBT.innerHTML = "Table Color";
+    tableColorButton.appendChild(tableBT);
 
     var okay = document.createElement("button");
     okay.innerHTML = "Okay";
@@ -391,10 +402,7 @@ function findWin(player){
         console.log(player1TurnCount);
         sendToLeaderboard(total_games, Player1Wins, time_played, player1TurnCount);
         displayEndTime();
-        /*
-        GAME WINNER WINDOW WITH OK BUTTON HERE
-        PRESSING OK RESET PAGE
-        */
+        DisplayWin(1);
     }else if (TwoWins > 0){
         total_games = 1;
         Player1Wins = 0;
@@ -402,10 +410,27 @@ function findWin(player){
         player1TurnCount;
         sendToLeaderboard(total_games, Player1Wins, time_played, player1TurnCount);
         displayEndTime();
-        /*
-        SAME AS PLAYER 1 AFTER TIME ENDS DISPLAY
-        */   
+        DisplayWin(2); 
     }
+}
+
+function DisplayWin(value){
+    removeElements(winnerSpace);
+    var InnerWinner = document.createElement("div");
+    InnerWinner.setAttribute("id","winBox");
+
+    var winner = document.createElement("p");
+    winner.setAttribute("id","PlayerWin");
+    winner.innerHTML = "Player " + value + " Wins!!!"
+    var resetWinner = document.createElement("button");
+    resetWinner.setAttribute("onclick", "reset()");
+    resetWinner.innerHTML = "New Game";
+
+    InnerWinner.appendChild(resetWinner);
+    InnerWinner.appendChild(winner);
+    
+
+    winnerSpace.appendChild(InnerWinner);
 }
 
 function detectConnects(){
