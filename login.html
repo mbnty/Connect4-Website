@@ -7,20 +7,20 @@
     <link rel="stylesheet" href="loginstyle.css">
 </head>
 <body>
-    <div>
+    <div class="flex-container">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         <form onsubmit="return login(this)" method="post">
-            <div>
+            <div class="input-boxes">
                 <label>Username:<sup>*</sup></label>
                 <input type="text" name="username" id="username">
             </div>    
-            <div>
+            <div class="input-boxes">
                 <label>Password:<sup>*</sup></label>
                 <input type="password" name="password" id="password">
             </div>
             <div id="login_error"></div>
-            <div>
+            <div id="sub-button">
                 <input type="submit" value="Submit">
             </div>
             <p>Don't have an account? <a href="register_mysql.php">Sign up now</a>.</p>
