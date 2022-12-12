@@ -33,3 +33,7 @@ p{
     font-weight: bold;
     font-size: large;
 }
+
+#quit{
+    text-align: center;
+}
